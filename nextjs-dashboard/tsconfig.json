@@ -20,9 +20,9 @@
     ],
     // "baseUrl": ".",
     "paths": {
-      // "@/*": ["./*"] ts 7.0 stuff maybe
-      "@app/*": ["./src/app/*"],
-      "@lib/*": ["./src/lib/*"]
+      "@/*": ["./*"]
+      // "@app/*": ["./src/app/*"],
+      // "@lib/*": ["./src/lib/*"]
     }
   },
   "include": [

@@ -1,0 +1,1652 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath,amsthm}
+\usepackage{mathtools}
+
+\title{AA}
+\author{SH}
+% \date{March 2025}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+\theoremstyle{corollary}
+\newtheorem{corollary}{Corollary}
+
+\theoremstyle{lemma}
+\newtheorem{lemma}{Lemma}
+
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\orb}{orb}
+\DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\vspan}{span}
+
+\begin{document}
+
+\maketitle
+
+\section{Preliminaries}
+
+\subsection{Number Theory}
+
+\begin{definition}
+Well-Ordering Principle (WOP): Every non-empty subset of $\mathbb{N}$ has a least element.
+\end{definition}
+
+\begin{theorem}
+Division Algorithm: Let b $\in\mathbb{Z}, a\in\mathbb{N}$. $\exists! q\in\mathbb{Z}, r\in\{0,1,...,a-1\}$ where $b = aq + r$.
+\end{theorem}
+
+\begin{proof}
+Let $S = \{b-as|s\in\mathbb{Z}\}\cap(\mathbb{N}\cup\{0\})$
+This is non-empty when $b$ is positive. If $b=0$, set $s=-1$. If $b<0$, set $s=2b$. Thus this set is always non-empty.
+
+Thus, we may let $r$ be the minimum of set $S$ by WOP. We have that $\exists q\in\mathbb{Z}$ such that $b-aq=r$ with $r$ minimal.
+
+Additionally, $r\in\{0,1,...,a-1\}$. BWOC, Suppose $r\geq a, b=a(q-1)=r-q\in S$ $b$ is a smaller element and we have a contradiction.
+
+We also have r is unique. BWOC, suppose $aq+r=a\tilde{q}+\tilde{r}$ Then we have $a(q-\tilde{q})=r-\tilde{r}$, meaning $a|(r-\tilde{r})\in\{0,\pm1,\pm2,...,\pm(a-1)\}$. Here, only $0$ is a multiple of $a$.
+\end{proof}
+
+\begin{theorem}
+Bezout's Theorem: $(m,n)=1\implies\exists a,b\in\mathbb{Z}$ s.t. $am+bn=1$
+\end{theorem}
+
+\begin{proof}
+WLOG $m$ and $n$ are positive. Consider $S = \{an+bm:a,b\in\mathbb{Z}\}\cap\mathbb{N}$. This is nonempty as $n\in S$, so there is a least element $r=a\tilde{n}+b\tilde{m}$.
+Suppose $r>1$. it is not a factor of at least one of $m$ and $n$.
+WLOG $r\nmid n$. By the division algorithm, $\exists q,\tilde{r}$ where $r\in \{1,2,...,r-1\}$ such that $n=qr+\tilde{r}=q(a\tilde{n}+b\tilde{m})+r$. However, this means $\tilde{r}=-q\tilde{a}m+(1-q\tilde{b})n\in S$, but $\tilde{r}<r$. By contradiction, $r=1$.
+\end{proof}
+
+\begin{corollary}
+If $p$ is prime and $p\mid ab$, then $p\mid a$ or $p\mid b$.
+\end{corollary}
+
+\begin{proof}
+If $p\mid a$, we are done. Else, $(p,a)=1$. Thus $\exists \alpha,\beta\in\mathbb{Z}$ s.t. $p\alpha+a\beta=1$.
+We then have $p\alpha b+ ab\beta=b\implies p\mid b$
+\end{proof}
+
+\begin{corollary}
+$(m,n)=d\implies\exists a,b\in\mathbb{Z}$ s.t. $am+bn=d$.
+\end{corollary}
+
+\begin{lemma}
+Every $n>1$ has a prime factor.
+\end{lemma}
+
+\begin{proof}
+BWOC, let $S$ be the nonempty set of natural numbers greater than 1 with no prime factors. Let the least number in $S$ be $q$. Since $q$ cannot be prime, it has a factor between $1$ and $q$ which must also not have prime factors.
+\end{proof}
+
+\begin{lemma}
+Every n>1 has a prime factorization.
+\end{lemma}
+
+\begin{proof}
+By lemma 1, you may remove prime factors until the number is prime.
+\end{proof}
+
+\begin{theorem}
+Every n>1 has a unique prime factorization.
+\end{theorem}
+
+\begin{proof}
+We already have that all $n>1$ has a prime factorization, so we now need to prove it is unique. 
+Suppose $n$ is the least number without a unique prime factorization.
+$n=p_1p_2\cdots p_{n-1}p_n=q_1q_2\cdots q_{m-1}q_m$, where each $p_i$ and $q_j$ are positive prime factors. We know that none of these primes are equal because by canceling out equal primes, we obtain a smaller number.
+Since for each $q_j$, $p_1\neq q_j$ and $q_j$ is prime, $p_1\nmid q_j$. However, 
+\end{proof}
+
+\begin{definition}
+Let $n \in \mathbb{N}, n \geq 2.$ Then $a \pmod{n} =$ the remainder when a is divided by n. We say $a \equiv b \pmod{n}$ if $a \pmod{n} = b \pmod{n}.$
+\end{definition}
+
+\begin{lemma}
+$a \equiv b \pmod{n} \iff n \mid (a-b)$
+\end{lemma}
+
+\begin{proof}
+Let $r = a \pmod{n}$\\
+$a = kn + r$\\
+$b = jn + r$\\
+$a - b = (k - j)n$, thus $n \mid (a-b)$
+\end{proof}
+
+\begin{lemma}
+$a\equiv b \pmod{n}\land c=d\pmod{n}\implies a+c\equiv b+d\pmod{n}\land ab\equiv cd\pmod{n}$
+\end{lemma}
+We thus have that $a+b,ab\pmod{n}$ are "well-defined."
+0 and 1 continue to function as the identities.
+
+\begin{lemma}
+$k$ has a multiplicative inverse $\pmod{n}$ iff $(k,n)=1$
+\end{lemma}
+
+\subsection{Relations}
+
+\begin{definition}
+A relation on a set $S$ is a subset of $S\times S$. We write $a\sim b$ for $(a,b)\in R$ unless there is other context.
+
+Note: a relation is a function iff $\forall a\exists!b$ where $(a,b)\in R$
+\end{definition}
+
+\begin{definition}
+A relation $\sim$ is an equivalence relation if the following is satisfied:
+\begin{enumerate}
+    \item Reflexivity: $\forall a\in S,a\sim a$
+    \item Symmetry: $\forall a,b\in S, a\sim b\implies b\sim a$
+    \item Transitivity: $\forall a,b,c\in S, a\sim b\land b\sim c\implies a\sim c$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Let $S$ be a set and $\sim$ an equivalence relation on S. THe equivalence class of $a$, written $[a]=\{x\in S:x\sim a\}$
+\end{definition}
+
+\begin{lemma}
+Let $a,b\in S$. Then either:
+\begin{enumerate}
+    \item $a\sim b: [a]=[b]$
+    \item $a\nsim b: [a]\cap[b]=\phi$
+\end{enumerate}
+\end{lemma}
+
+\subsection{Maps}
+
+\begin{definition}
+Maps/Functions: $f:A\rightarrow B$
+\end{definition}
+
+$A$ is the domain, and $B$ is the codomain.\\
+We say:\\
+$f$ is one to one (injective) if $\forall a,b\in A,f(a)=f(b)\implies a=b$\\
+$f$ is onto (surjective) if $\forall b\in B,\exists a\in A:f(a)=b$\\
+$f$ is bijective if it is injective and surjective.\\
+If $S\subset A$, $f(S)=\{f(a):a\in S\}\subset B$. Range of $f$ is defined to be $f(A)$.\\
+If $T\subset B,f^{-1}(T)=\{a\in A:f(a)\in T\}$
+
+Prove, disprove, or solve the following, where $f:A\rightarrow B, g:B\rightarrow C$
+\begin{enumerate}
+    \item $f$, $g$ is one to one $\implies g\circ f$ is one to one
+    \item $f$, $g$ is onto $\implies g\circ F$ is onto
+    \item Suppose $S,T\subset A$. Then,
+    \begin{enumerate}
+        \item $f(S)\cap f(T)=f(S\cap T)$
+        \item $f(S)\cup f(T)=f(S\cup T)$
+    \end{enumerate}
+    \item If $X\subset A$, relate $X$ to $f^{-1}(f(X))$
+    \item If $Y\subset B$, relate $Y$ to $f(f^{-1}(Y))$
+\end{enumerate}
+
+\begin{theorem}
+Suppose $f:S\rightarrow S$ is a map. $f$ is onto $\iff f$ is one to one.
+\end{theorem}
+
+\section{Introduction to Groups}
+
+\begin{definition}
+A group is a set $G$ equipped with a binary operation such that
+\begin{enumerate}
+    \item $\forall a,b\in G, ab\in G$
+    \item $\forall a,b,c \in G, (ab)c=a(bc)$
+    \item $\exists e\in G,\forall a\in G,ae=ea=a$
+    \item $\forall a\in G,\exists a^{-1}\in G,aa^{-1}=e$
+\end{enumerate}
+If $\forall a,b\in G,ab=ba$, the group is abelian.
+\end{definition}
+
+Examples: $\mathbb{Z},\mathbb{Q},\mathbb{C},\mathbb{Z}_n$ under addition are abelian groups. Note we have not defined $\mathbb{Z}_n$ yet.
+
+Notation: $\mathbb{R}_+,\mathbb{Z}_+,...$ include positive elements only. In addition, $\mathbb{R}^*,\mathbb{C}^*,\mathbb{Q}^*,...$ include nonzero elements only.
+
+More examples: $\mathbb{R}_+,\mathbb{R}^*,\mathbb{Q}^*,\{\pm 1,\pm i\}$ under multiplication.
+
+\begin{definition}
+Here is a list of a few general groups:
+\begin{enumerate}
+    \item $\mathbb{Z}_n$ is the group of equivalence classes modulo $n$. Instead of using $[a]$, we use $k$ where $k\in[a]\cup\{0,1,...,n-1\}$.
+    \item $M_{m\times n}$ is the group of $m\times n$ matrices under addition.
+    \item $\GL(n,F)$ is the group of $n\times n$ matrices with nonzero determinant under multiplication.
+    \item $D_n$ is the dihedral group on a regular n-gon. $R$ rotates an n-gon by $\frac{2\pi}{n}$, and $H$ flips an n-gon down a symmetry line. When a $180\textdegree$ rotation can be made, we sometimes denote that element as $R_{180}$. Note that $HR^k=R^{n-k}H$
+    \item The mod $1$ group: $[0,1)$ with $a\oplus b = 
+    \begin{cases}
+        a+b & \text{if } a+b < 1,\\
+        a+b-1  & \text{otherwise}
+    \end{cases}$
+    \item $U(n)$, where $a\in U(n)$ if $(a,n)=1$. The operation is multiplication modulo $n$.
+    \item The quaternion group $Q_8=\{\pm1,\pm i,\pm j,\pm k\}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+If $G$ is a group, then the order of $G$, $|G|$, is the number of elements in G.
+For $g\in G$, the order of $g$, $|g|$ is the smallest positive integer $n$ for which $g^n=e$. 
+\end{definition}
+
+\begin{theorem}
+In a finite group, every element has finite order.
+\end{theorem}
+\begin{proof}
+Let $g\in G, |G|<\infty$. $g,g^2,g^3,...$ are all in $G$ by closure. But since $G$ is finite, some have to be the same. Thus $\exists m<n$ for which $g^m=g^n$, so $e=g^{n-m}$ with $|g|\leq n-m<\infty$. Note that we assumed we can cancel out elements. 
+\end{proof}
+
+\begin{theorem}
+    $g^n=e\implies|g|\mid n$
+\end{theorem}
+\begin{proof}
+Let $k=(|g|,n). \exists a,b$ where $am+bn=k$. So $g^k=g^{am+bn}=(g^m)^a(g^n)^b=e$. $k\leq |g| \land g^k=e\implies k=|g|$. $|g|=(|g|,n)\implies m\mid n$.
+\end{proof}
+
+\begin{definition}
+Let $H\subset G$. $H$ is a subgroup of $G$ ($H\leq G$) if under the same operation as $G$, $H$ forms a group.
+\end{definition}
+
+Examples: $\mathbb{Z}\leq\mathbb{Q}\leq\mathbb{R}\leq\mathbb{C},\mathbb{Q}^*\leq\mathbb{R}^*\leq\mathbb{C}^*$
+
+\begin{definition}
+Let $G$ be a group. The center of $G$, written $Z(G)$, is the set of elements that commute with every element in the group. In other words, $Z(G)=\{x\in G:\forall a\in G,ax=xa\}$
+We call $Z(G)$ trivial if $Z(G)=\{e\}$.
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item $Z(\mathbb{Z})=\mathbb{Z}$
+    \item $Z(D_n)=\{e,R^{n/2}\}$ if $n$ is even.
+    \item $Z(S_n)={e}$ for $n\geq3$
+\end{enumerate}
+
+\begin{definition}
+Let $G$ be a group. Given $a\in G$, the centralizer of $a$, $C(a)$, is defined as $\{g\in G:ga=ag\}$
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item Within $D_n$, $C(R)=\begin{cases}
+        D_n & n=4\\
+        \langle R\rangle & \text{otherwise}
+    \end{cases}$
+    \item Within $D_n$, $C(H)=\begin{cases}
+        \{e,H\} & n\text{ is odd}\\
+        \{e,H,R^{\frac n 2}, HR^{\frac n 2}\} & n\text{ is even}
+    \end{cases}$
+\end{enumerate}
+
+\begin{theorem}
+Given a group $G$ and an element $a\in G$, $Z(G)\leq C(a)\leq G$
+\end{theorem}
+
+\begin{definition}
+A group $G$ is cyclic if $\exists g\in G$ where $\langle g\rangle=\{g^n:n\in\mathbb{Z}\}=G$
+\end{definition}
+
+Note and prove the following: $|g|=n$ and $|g^m|=\frac{n}{(m,n)}$
+
+\begin{theorem}
+Any subgroup of a cyclic group is cyclic.
+\end{theorem}
+\begin{proof}
+Suppose $G=\langle g\rangle$.
+Let $H\leq G$. Suppose $H\neq \{e\}$. WLOG $H$ has positive powers of $g$ (we can use $\langle g^{-1}\rangle$). By WOP, there is a minimum positive a for which $g^a\in H$. Suppose $\exists \alpha,\beta$ such that $\alpha a+\beta b=(a,b)<a$ which means $g^{\alpha a+\beta B}\in H$, arriving at a contradiction.
+\end{proof}
+
+\begin{definition}
+Suppose $f:S\rightarrow S$ is bijective. The map $f$ is called a permutation of $S$.
+\end{definition}
+
+Ex. $S=\{1,2,3\}$, $f(1)=2,f(2)=3,f(3)=1$. $f$ can be written as $\bigl(\begin{smallmatrix}
+  1 & 2 & 3 \\
+  2 & 3 & 1
+\end{smallmatrix}\bigr)$, where the top numbers are the inputs of the map and the bottom numbers are the outputs. An alternate form (which is more used), would the cycle-notation for $f$, provided here: $(1 2 3)$. You get an output of $f$ by finding the input and going one to the right, looping back to the beginning as necessary.
+
+Here is a longer example: $\bigl(\begin{smallmatrix}
+  1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+  2 & 1 & 3 & 5 & 6 & 7 & 8 & 4 & 9
+\end{smallmatrix}\bigr)$ can be rewritten as $(12)(3)(45678)(9)=(12)(45678)$. Note that we omitted members of the form $(n)$.
+
+\begin{definition}
+An $n$-cycle is a function of the form $(a_1a_2\cdots a_n)$. Thus the previous longer example would be consisted of one 2-cycle and one 5-cycle.
+\end{definition}
+
+\begin{definition}
+Let $G$ be the set of all permutations of $\{1,2,...,n\}$. $G$ is the symmetric group of degree $n$ under composition, written $G=S_n$.
+\end{definition}
+
+\begin{lemma}
+$n$-cycles have order $n$.
+\end{lemma}
+
+\begin{lemma}
+Suppose $g$ and $h$ are disjoint cycles. Then $|gh|=\lcm(|g|,|h|)$.
+\end{lemma}
+
+\begin{theorem}
+    If $g,h\in G$, $g\sim h$ ($g$ is conjugate to $h$) if $\exists a\in G:h=aga^{-1}$. We claim:
+    \begin{enumerate}
+        \item Conjugacy is an equivalence relation.
+        \item Any two $n$-cycles are conjugate.
+        \item Every cycle can be represented as a product of 2-cycles.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Individually check for reflexivity, symmetry, and transitivity.
+        \item Note that $(ab)(ab\cdots)(ab)$ swaps the position of $a$ and $b$ in the middle. By repeating this process, we may get to any other $n$-cycle. In fact, this also shows that any two elements with the same cycle structure are conjugate.
+        \item As we may decompose any $g\in G$ into cycles, it suffices to show that we may write an $n$-cycle as a product of 2-cycles. Note that $(ab)(ab\cdots)=(b\cdots)$. Therefore we can see that $(ab\cdots)=(b\cdots)(ab)$ and then repeat this process.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Suppose $g\in S_n$ can be written as a product of $k$ 2-cycles and a product of $l$ 2-cycles. Then $k$ and $l$ have the same parity. Note that $g$ is called even if $k$ is even and odd otherwise.
+\end{theorem}
+
+\begin{theorem}
+The subset of even elements of $S_n$ form a subgroup. This is called the alternating group of index $n$, $A_n$.
+\end{theorem}
+
+\begin{lemma}
+$|A_n|=\frac 1 2 |S_n|=\frac 1 2 n!$
+\end{lemma}
+
+\begin{proof}
+    Let $B_n$=$S_n-A_n$. If $g\in A_n$, $(12)g\in B_n$ and thus $|A_n|\leq |B_n|$. If $g\in B_n$, $(12)g\in A_n$ and thus $|B_n|\leq|A_n|$. $|S_n|=|A_n|+|B_n|=2|A_n|$, so we are done.
+\end{proof}
+
+\begin{theorem}
+    Suppose $g_1$, $g_2$,...,$g_n$ are all 2-cycles, and $g_1g_2\cdots g_n=e$. Then $n$ is even.
+\end{theorem}
+
+\begin{proof}
+    proof
+\end{proof}
+
+\section{Isomorphisms}
+\begin{definition}
+    An isomorphism between two groups $G$ and $\tilde{G}$ is a map $\phi:G\rightarrow\tilde{G}$ that is bijective and satisfies $\forall a,b\in G, \phi(ab)=\phi(a)\phi(b)$.
+
+    We say $G$ and $\tilde{G}$ are isomorphic if there is such an isomorphism. We write this as $G\cong\tilde{G}$.
+\end{definition}
+
+Note that if $\phi:G\rightarrow\tilde{G}$ is an isomorphism, so is $\phi^{-1}:\tilde{G}\rightarrow G$.
+
+Examples:
+\begin{enumerate}
+    \item $\phi:\mathbb{Z}_4\rightarrow U(10)$ through $\phi(a)=3^a\pmod{10}$
+    \item $\phi:2\mathbb{Z}\rightarrow3\mathbb{Z}$ through $\phi(a)=\frac 3 2a$
+    \item $\phi:\mathbb{R}_+^*\rightarrow\mathbb{R}$ through $\phi(a)=\log(a)$, and similarly $\psi:\mathbb{R}\rightarrow\mathbb{R}_+^*$ through $\psi(a)=\exp(a)$.
+    \item let $\langle g\rangle$ and $\langle h\rangle$ be cyclic groups of order $n$. We can get an isomorphism $\phi:\langle g\rangle\rightarrow\langle h\rangle$ through $\phi(g^k)=h^k$.
+\end{enumerate}
+
+Here are some properties of an isomorphism $\phi:G\rightarrow\tilde{G}$:
+\begin{enumerate}
+    \item $\phi(e)=\tilde{e}$ where $\tilde{e}$ is the identity of $\tilde{G}$
+    \item $\forall k\in\mathbb{Z},\phi(a^k)=\phi(a)^k$
+    \item $G=\langle a\rangle\implies\tilde{G}=\langle\phi(a)\rangle$
+    \item $\forall a\in G,|a|=|\phi(a)|$
+    \item For any $n\in\mathbb{N}$, $G$ and $\tilde{G}$ have the same number of elements of order $n$.
+    \item $K\leq G\implies\phi(K)=\{\phi(x):x\in K\}\leq\tilde{G}$
+\end{enumerate}
+
+\begin{theorem}
+    Cayley's Theorem: Every group $G$ is isomorphic to a group of permutations.
+\end{theorem}
+
+\begin{proof}
+For $g,h\in G$, define $T_g(h)=gh$. $T_g$ is a permutation as it is bijective.
+\[T_g(h_1)=T_g(h_2)\implies gh_1=gh_2\implies h_1=h_2\]
+\[T_g(x)=h\implies gx=h\implies x=g^{-1}h\]
+
+Define $\tilde{G}=\{T_g:g\in G\}$. This forms a group under composition.
+
+\begin{enumerate}
+    \item Closure: composition of permutations are still permutations. $T_gT_h=T_{gh}$.
+    \item Identity: $T_e$, as $T_eT_g=T_gT_e=T_g$.
+    \item Inverses: The inverse of $T_g$ is $T_{g^{-1}}$, as $T_gT_{g^{-1}}=T_{gg^{-1}}=T_e$.
+    \item Associativity: $T_a(T_bT_c)=T_aT_{bc}=T_{abc}=T_{ab}T_c=(T_aT_b)T_c$.
+\end{enumerate}
+
+We additionally claim that $G\cong\tilde{G}$ through $\phi:G\rightarrow\tilde{G}$ with $\phi(g)=T_g$.
+\begin{enumerate}
+    \item Injectivity: $T_g=T_h\implies T_g(c)=T_h(c)\implies gc=hc\implies g=h$
+    \item Surjectivity: We have already defined the permutations from each element in $G$.
+    \item $T_{gh}=T_gT_h\implies\phi(gh)=\phi(g)\phi(h)$.
+\end{enumerate}
+\end{proof}
+
+\section{Automorphisms}
+
+\begin{definition}
+An isomorphism from a group to itself is called an automorphism.
+\end{definition}
+Example: $\phi_g:G\rightarrow G$ defined by $\phi_g(h)=ghg^{-1}$. This is called an inner automorphism (other automorphisms are called outer automorphisms).
+
+\begin{theorem}
+    Let $\Inn(G)=\{\phi_g:g\in G\}$ and $\Aut(G)$ be all the automorphisms of G. These two sets are groups under composition.
+\end{theorem}
+Examples:
+\begin{enumerate}
+    \item Let $\phi\in\Aut(\mathbb{Z}_n)$ and suppose $\phi(1)=k$ where $(n,k)=1$ (else it is not an automorphism). Then, $\phi(a)=ka$. Similarly, for some other $\tilde{\phi}\in\Aut(\mathbb{Z}_n)$, $\tilde{\phi}(a)=\tilde{k}a$. $\tilde{\phi}\circ\phi(a)=\tilde{k}ka$. From this, we may observe that $\Aut(\mathbb{Z}_n)\cong U(n)$.
+    \item $\Aut(\mathbb{Z})=\mathbb{Z}_2$
+    \item $|\Inn(D_n)|=\begin{cases}
+        2n & \text{n is odd,}\\
+        n  & \text{n is even}
+    \end{cases}$ Also, $\Inn(D_n)\cong\begin{cases}
+        D_n & \text{n is odd,}\\
+        D_n/\{e,R^{\frac n 2}\}  & \text{n is even}
+    \end{cases}$
+    The difference stems from the fact that $R^{\frac n 2}\in Z(D_n)$ when $n$ is even. Whenever we have an inner automorphism from one element $HR^k\in D_n$, we have an equivalent automorphism from $HR^{k+\frac n 2}$. In fact, it is true that if $G$ is a group, $\forall g\in G,z\in Z(G), \phi_g=\phi_{gz}$.
+    Note that we don't know what $D_n/\{e,R^{\frac n 2}\}$ means yet. We will define quotient groups later, and during our study of homomorphisms, prove that $G/Z(G)\cong \Inn(G)$.
+\end{enumerate}
+
+\section{Cosets}
+
+\begin{definition}
+Let $G$ be a group with $H\leq G$ and $g\in G$. The left coset of $H$ determined by $g$ is the set $gH=\{gh:h\in H\}$. The right coset of $H$ is a set $Hg=\{hg:h\in H\}$.
+\end{definition}
+
+\begin{definition}
+If $H\leq G$, the index of $H$ in $G$, $[G:H]$, is defined as the number of distinct left cosets.
+\end{definition}
+
+\begin{lemma}
+If $H\leq G$ and $h\in H$, then $hH=H$.
+\end{lemma}
+
+\begin{lemma}
+If $H\leq G$ with $g\in G$, then $|gH|=|H|$.
+\end{lemma}
+
+\begin{theorem}
+If $H\leq G$ and $g_1H$, $g_2H$ are two left cosets of $H$. Then either of the following is true:
+\begin{enumerate}
+    \item $g_1H=g_2H$
+    \item $g_1H\cap g_2H=\phi$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Assume the latter condition is false. This means that $\exists h_1,h_2\in H:g_1h_1=g_2h_2\implies g_1=g_2h_2h_1^{-1}$. Then, $g_1H=g_2h_2h_1^{-1}H$, so we thus have $g_1H=g_2H$.
+\end{proof}
+
+\begin{theorem}
+    The distinct left cosets partition $G$. In addition, $|G|<\infty\implies|H|\mid|G|$. Moreover, $[G:H]=\frac {|G|}{|H|}$.
+\end{theorem}
+
+\begin{corollary}
+    Lagrange's theorem: $g\in G\implies |g|\mid|G|$
+\end{corollary}
+
+\begin{proof}
+    $|g|=|\langle g\rangle|\mid|G|$
+\end{proof}
+
+\begin{corollary}
+$g\in G\implies g^{|G|}=e$
+\end{corollary}
+
+\begin{theorem}
+    Euler's Theorem: $(a,n)=1\implies a^{\phi(n)}\equiv1\pmod{n}$
+\end{theorem}
+
+\begin{proof}
+    Consider $U(n)$ with $a\in U(n)$. By the previous corollary, $a^{|U(n)|}=a^{\phi(n)}=1$. We may also obtain Fermat's Little Theorem from this.
+\end{proof}
+
+\begin{theorem}
+    The only groups of prime order are cyclic.
+\end{theorem}
+
+\begin{proof}
+    $|g|=p$ if $g\neq e$ as the possible orders of $g$ are 1 and $p$. We have that such a $g$ generates the group. 
+\end{proof}
+
+\section{External Direct Products}
+
+\begin{definition}
+Let $H,K\leq G$. The internal direct product $HK=\{hk:h\in H,k\in K\}$
+\end{definition}
+
+Note that internal direct products need not be a subgroup. It is sufficient but not necessary that if the presiding group is abelian, the internal direct product is a subgroup.
+
+\begin{theorem}
+Suppose $|G|<\infty$ and $H,K\leq G$. Then, $|HK|=\frac{|H||K|}{|H\cap K|}$.
+\end{theorem}
+
+\begin{proof}
+If $g\in HK$, $g=hk$ for some $h\in H,k\in K$. Any other products can be represented with $g=(hx)(x^{-1}k)$. Take any $x\in H\cap K$. Then, $g=hk=(hx)(x^{-1}k)$ with $hx\in H$ and $x^{-1}\in K$. We have thus found another way to represent $g$ using elements of $|H\cap K|$. If a value of $x$ plugged in does not belong to $H\cap K$, the representative fails. Assume $x\notin H$: then suppose $hx\in H$. However, by closure, $h^{-1}hx=x\in H$, arriving at a conclusion. We  arrive at a similar conclusion with a similar fashion by assuming $x\notin K$. Thus, for each $g$, there are $|H\cap K|$ ways of representation. 
+\end{proof}
+
+\begin{theorem}
+When $p>2$ is a prime number, any group of order $2p$ is either cyclic or dihedral.
+\end{theorem}
+
+\begin{proof}
+Proceed by casework on possible orders of elements (1,2,$p$,2$p$):
+\begin{enumerate}
+    \item If $\exists g:|g|=2p$, $G$ is cyclic.
+    \item Suppose all non-identities are order 2 (then it is abelian). Take two distinct non-identity elements of $G$, calling them $a$ and $b$. We may construct a subgroup $\{e,a,b,ab\}$. However, the order of this is 4, which does not divide $2p$. This case is impossible.
+    \item Suppose $\exists g\in G:|g|=p$. Suppose there is another $h\in G$ such that $|h|=p$ but $h\notin \langle g\rangle$. Since $G$ is abelian, we have that $\langle g\rangle\langle h\rangle$ is a subgroup of $G$. $|\langle g\rangle\cap\langle h\rangle|=1$ as only the identity is in the intersection. Therefore, $|\langle g\rangle\langle h\rangle|=p^2$, but $p^2\nmid 2p$. This case is also impossible.
+    \item Suppose $\exists g\in G:|g|=p$. Now we know everything not in $\langle g\rangle$ have order 2. Take $h\in G:h\notin \langle g\rangle$. 
+    
+    Then, the group is $\{e,g,g^2,...,g^{p-1},h,hg,hg^2,...,hg^{p-1}\}\cong D_p$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+Let $p$ be prime. If $p\mid|G|$, then $G$ has a element of order $p$.
+\end{theorem}
+
+\begin{proof}
+    proof
+\end{proof}
+
+Example of usage:
+We want to classify all groups with $|G|=35$. Now, there are elements with order 5 and 7, and there can exists orders of 1, 5, 7 and 35.
+
+Let $|g|=5,|h|=7$. Claim: $k\notin\langle h\rangle\implies|k|\neq7$.
+
+Assuming otherwise with $|k|=7$ leads us to a contradiction. Let $K=\langle k\rangle$ and $H=\langle h\rangle$. Then, $|HK|=\frac{|H||K|}{|H\cap K|}=49>35$.
+
+So we now have that all other elements are of order 1, 5, or 35.
+
+$|ghg^{-1}|=|h|=7$, so $ghg^{-1}=h^n$.
+\begin{align}
+    & g(ghg^{-1})g^-1=gh^ng^{-1} &\\
+    & g^2hg^{-2}=(ghg^{-1})^n &\\
+    & g^2hg^{-2}=h^{(n^2)} &\\
+    & g^5hg^{-5}=h^{(n^5)} &\\
+    & h=h^{(n^5)}
+\end{align}
+
+We thus have $7|n^5-1$ and thus $7|n^6-n$. In addition, since $7\nmid n$, we also have $7|n-1$. As $n$ cannot be 6, we conclude that $n=1$. So we have $ghg^{-1}=h\implies gh=hg$.
+
+Let $T=\langle g\rangle$. $|TH|=\frac{|T||H|}{|T\cap H|}=35$, so $TH=G$ and all elements are in the form $g^kh^j$. From $gh=hg$, $TH=G$ is abelian. This gets us that $(gh)^m=g^mh^m=e\implies 5\mid n\land 7\mid n\implies 35\mid n$. Since $n\leq35$, $|gh|=n=35$. We thus have that $gh$ generates the group, and $G$ is thus cyclic.
+
+\begin{theorem}
+Suppose $G$ is a group with $|G|=pq$ where $p$ and $q$ are primes with $p<q$. If $q\not\equiv1\pmod{p}$, then $G\cong\mathbb{Z}_{pq}$.
+\end{theorem}
+
+\begin{definition}
+Let $G$ and $H$ be groups. The (external) direct product of $G$ and $H$, written $G\oplus H$, is the set $G\times H=\{(g,h):g\in G,h\in H\}$ equipped with the operation that satisfies $(g_1,h_1)(g_2,h_2)=(g_1g_2,h_1h_2)$. This forms a group.
+\end{definition}
+
+Note: If $G$ and $H$ are finite groups, $|G\oplus H|=|G||H|$.
+Second Note: We can extend $\oplus$ multiple times. $G\oplus H\oplus I\oplus J$ would be a group of 4-tuples.
+
+Examples:
+\begin{enumerate}
+    \item $G\oplus H\cong H\oplus G$
+    \item $G\oplus \{e\}\cong G$
+    \item The Klein 4 group, $\mathbb{Z}_2\oplus\mathbb{Z}_2\ncong\mathbb{Z}_4$. Feel free to demonstrate that the only groups of order 4 are the ones mentioned on this line up to isomorphism.
+\end{enumerate}
+
+\begin{theorem}
+$(m,n)=1\iff\mathbb{Z}_m\oplus\mathbb{Z}_n\cong\mathbb{Z}_{mn}$
+\end{theorem}
+
+\begin{proof}
+    Assuming $(m,n)=1$, $|(g,h)|=\lcm(|g|,|h|)$, so $|(1,1)|=\lcm(m,n)=mn$, so $(1,1)$ generates $\mathbb{Z}_m\oplus\mathbb{Z}_n\cong\mathbb{Z}_{mn}$
+    Assuming $(m,n)\neq1$, no element has order $mn$, as $|(g,h)|=\lcm(|g|,|h|)=\frac{|g||h|}{(|g|,|h|)}<mn$. In this case, we  have $\mathbb{Z}_m\oplus\mathbb{Z}_n\ncong\mathbb{Z}_{mn}$
+\end{proof}
+
+\begin{corollary}
+$(n_1,n_2,...,n_m)=1\iff\mathbb{Z}_{n_1}\oplus\mathbb{Z}_{n_2}\oplus\cdots\oplus\mathbb{Z}_{n_m}$
+\end{corollary}
+\begin{theorem}
+Fundamental Theorem of Finite Abelian Groups: Every finite abelian group is isomorphic to a group of the form $\bigoplus_{i=1}^k\mathbb{Z}_{p_i^{n_i}}$, where $p_i$'s are not necessarily different primes and $\forall i\in \{1,2,...,k\},n_i\geq1$.
+\end{theorem}
+
+\section{Normal Subgroups}
+\begin{definition}
+Let $H\leq G$. $H$ is normal in $G$, written $H\unlhd G$, if $\forall g\in G, gH=Hg$ (same as $gHg^{-1}=H$).
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item All abelian groups
+    \item $\langle R\rangle\unlhd D_n$
+    \item $A_n\unlhd S_n$
+    \item $SL(n,F)\unlhd GL(n,F)$
+\end{enumerate}
+
+\begin{lemma}
+$[G:H]=2\implies H\unlhd G$
+\end{lemma}
+
+\begin{proof}
+    $G$ is partitioned into two parts by $H$ and $gH$ where $g\in G\land g\notin H$. Note that $e\in gHg^{-1}$, so $gHg^{-1}=H$.
+\end{proof}
+
+\begin{lemma}
+If $H\leq G$ and is the only subgroup of its order, then $H\unlhd G$.
+\end{lemma}
+
+\begin{proof}
+    proof
+\end{proof}
+
+\begin{lemma}
+$xH=H\iff x\in H$
+\end{lemma}
+
+\begin{theorem}
+Suppose $H\unlhd G$. Then, $\{gH:g\in G\}$ is a group under the operation such that $g_1Hg_2H=g_1g_2H$.
+\end{theorem}
+
+\begin{proof}
+We would like to demonstrate that the operation is well defined. The rest of the properties follow easily from the group properties of $G$.
+Suppose $aH=cH$ and $bH=dH$. WWTS $abH=cdH$ meaning $(cd)^{-1}ab\in H$. From the two supposition, it follows that $c^{-1}a,d^{-1}b\in H$. Since $H$ is normal, $d^{-1}(c^{-1}a)d\in H$. $d^{-1}(c^{-1}a)dd^{-1}b=(cd)^{-1}ab\in H$ follows from the previous statements.
+\end{proof}
+
+\section{Quotient Groups}
+
+\begin{theorem}
+The quotient group $G/H$, called $G$ mod $H$, is the group of the left cosets. It is also called a factor group of $G$. Note that $|G/H|=[G:H]$.
+\end{theorem}
+
+Examples:
+\begin{enumerate}
+    \item $G=\mathbb{Z}$, $H=4\mathbb{Z}$. $H=\{0,\pm4,\pm8\dots\}$. $1+H=\{1,1\pm4,1\pm8\dots\}$, and onwards. You may notice that $G/H\cong Z_4$.
+    \item $G\oplus H/G\oplus\{e\}\cong H$ with $\phi:H\rightarrow G\oplus H/G\oplus\{e\}$, $\phi(h)=(G,h)$.
+    \item $GL(2,\mathbb{R})/SL(2,\mathbb{R})\cong R^*$ with $k\rightarrow\bigl(\begin{smallmatrix} k & 0\\0 &  1\end{smallmatrix}\bigr)\SL(2,\mathbb{R})$
+    \item $D_{2n}/\{e,R_{180}\}\cong D_n$
+\end{enumerate}
+
+\begin{theorem}
+$G/Z(G)$ is cyclic $\iff$ $G$ is abelian
+\end{theorem}
+
+\begin{proof}
+Let $a\in G, a\notin Z(G), \langle aZ\rangle=G/Z(G)$.
+
+Then $G/Z=\{Z(G),aZ(G),a^2Z(G),\dots\}$ and $G=\bigcup a^iZ(G)$.
+Suppose $b\notin Z(G)$. Then, $b\in a^kZ(G)$ for some $k$. Similarly, $b^{-1}\in a^lZ(G)$ for some $l$.
+$\exists z_1,z_2\in Z(G):(\alpha\in a^kZ(G)\implies\alpha=\alpha^kz_1)\land(\beta\in a^lZ(G)\implies\beta = \alpha^lz_2)$
+Here, $\alpha$ and $\beta$ commute, so the group is abelian.
+\end{proof}
+
+\begin{lemma}
+Let $p$ and $q$ be different primes. Any group of order $pq$ has a trivial center.
+\end{lemma}
+
+\begin{theorem}
+$H,K\unlhd G\land H\cap K = \{e\}\land |HK|=G\implies H\times K\cong H\oplus K$
+\end{theorem}
+
+\begin{proof}
+    proof
+\end{proof}
+
+\section{Homomomomorphisms}
+
+\begin{definition}
+A homomorphism is a function $\phi:G\rightarrow\tilde{G}$ s.t. $\forall g_1,g_2\in G,\phi(g_1g_2)=\phi(g_1)\phi(g_2)$.
+\end{definition}
+
+\begin{lemma}
+If $\phi:G\rightarrow\tilde{G}$ is a homomorphism, $\phi(e)$ is the identity of $\tilde{G}$.
+\end{lemma}
+
+Here are some properties of homomorphisms:
+\begin{enumerate}
+    \item 
+\end{enumerate}
+
+\begin{definition}
+Let $\phi:G\rightarrow\tilde{G}$ be a homomorphism. The kernel of G, written $\ker(\phi)$, is defined as $\{g\in G:\phi(g)=\tilde e\}$ where $\tilde e$ is the identity of $\tilde G$.
+\end{definition}
+
+\begin{theorem}
+    $\ker(\phi)\unlhd G$
+\end{theorem}
+
+\begin{proof}
+    $\ker(\phi)\leq G$ because it has closure: $\forall g,\tilde g\in \ker(\phi),\phi(g\tilde g)=\phi(g)\phi(\tilde{g})=\tilde e\tilde e=\tilde e$. Rest of the properties come from the fact that $G$ is a group.
+
+    Next, consider $g\ker(\phi)g^-1$ and let $k\in \ker(\phi)$. $\phi(gkg^{-1})=\phi(g)\phi(k)\phi(g^{-1})=\phi(g)\tilde e\phi(g^{-1})=\tilde e$, so $\ker(\phi)$ is indeed invariant under conjugation.
+\end{proof}
+
+Examples:
+\begin{enumerate}
+    \item $\phi:GL(n,\mathbb{R}^*)\rightarrow\mathbb{R}^*$ by $\phi(M)=\det(M)$; $\ker(\phi)=SL(n,\mathbb{R}^*)$
+    \item $\phi:\mathbb{R}[x]\rightarrow\mathbb{R}[x]$ by $\phi(f(x))=f'(x)$ ($\mathbb{R}[x]$ is the set of polynomials of real coefficients under addition.); $\ker(\phi)=\mathbb{R}$
+    \item $\phi:\mathbb{R}[x]\rightarrow\mathbb{R}$ by $\phi(f(x))=f(0)$; $\ker(\phi)=\{f(x)=0\}=x\mathbb{R}[x]$
+    \item $\phi:S_n\rightarrow \mathbb Z_2$ by $\phi(g)=\begin{cases}
+        1 & g\text{ is odd,}\\
+        0 & g\text{ is even}
+    \end{cases}$; $\ker(\phi)=A_n$
+\end{enumerate}
+
+\begin{definition}
+    If $\phi:G\rightarrow\tilde G$ is a homomorphism, the image of G is defined as $\Img(\phi)=\phi(G)=\{\phi(g):g\in G\}$.
+\end{definition}
+
+\begin{lemma}
+$\phi(G)\leq\tilde G$
+\end{lemma}
+
+\begin{theorem}
+First isomorphism theorem: $G/\ker(\phi)\cong\phi(G)$
+\end{theorem}
+
+\section{Group Actions}
+
+\begin{definition}
+Let $G$ be a group and $X$ an nonempty set. An action of $G$ on $X$ is a homomorphism $G\rightarrow S_X$, where $S_X$ is the symmetric group on $X$.
+In essence, every $g\in G$ determines a permutation of $X$ following the properties:
+\begin{enumerate}
+    \item $\forall x\in X,e(x)=x$
+    \item $\forall x\in X,(gh)(x)=g(h(x))$
+\end{enumerate}
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item Any group $G$ can act on any set $X$ with $\forall g\in G,x\in X,g(x)=x$.
+    \item $\mathbb{Z}$ acts on the set $\{a,b\}$ as follows: $1(a)=b,1(b)=a$; this determines that even numbers act as the identity.
+    \item $\mathbb{Z}_3$ fails to act on a set $\{a,b\}$.
+    \item $\mathbb{Z}_3$ can act on $\{a,b,c,d\}$, however. We may use the same mapping as item 2, but also with $\forall g\in\mathbb{Z}_3,g(d)=d$.
+    \item $\GL(2,\mathbb{R})$ on $\mathbb R^2$ via $\bigl(
+        \begin{smallmatrix}
+            a & b \\
+            c & d
+        \end{smallmatrix}\bigr)
+        \bigl(\begin{smallmatrix}
+            u \\
+            v
+        \end{smallmatrix}\bigr)$
+    \item $D_4$ acts on vertices of a square
+    \item Any group can act on itself by both left multiplication and conjugation.
+    \item $\mathbb{Z}_2$ acts on $\mathbb{Z}$ via $1(n)=-n$.
+    \item $S_3$ acts on $X\times X\times X$ (and by extension, $S_n$ acts on $X^n$) via permuting the indices of the elements.
+    \item $\mathbb{Z}_6$ acts on $\mathbb{Z}$ via $m(n)=n+m$
+    \item $\mathbb{Z}$ acts on $\mathbb{Z}_6$ via \begin{enumerate}
+        \item $n(m)=n+m\pmod6$
+        \item $n(m)=n+km\pmod6$
+        \item $n(m)=n-km\pmod6$
+        \item and others of similar form.
+    \end{enumerate}
+\end{enumerate}
+
+\begin{definition}
+    Let $G$ act on $X$.
+    \begin{enumerate}
+        \item If $x\in X$, the orbit of $x$ is $\orb(S)=\{g(x):g\in G\}$.
+        \item If $x\in X$, the stabilizer of $x$ is $\stab(x)=\{g\in G:g(x)=x\}$
+        \item If $g\in G$, the fixed points of g is $\Fix(g)=\{x\in X:\exists g\in G,g(x)=x\}$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $G$ act on $X$.
+    \begin{enumerate}
+        \item The orbits of $X$ partition $X$.
+        \item $\forall x\in X,\stab(x)\leq G$.
+        \item $|\orb(x)||\stab(x)|=|G|$ (orbit stabilizer theorem)
+        \item $g(x)=y\implies \stab(y)=g\stab(x)g^{-1}$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Let $g_1,g_2\in G$ and $x,y\in X$.
+    \begin{enumerate}
+        \item \begin{align}
+            &z\in\orb(x)\cap\orb(y)\\
+            &z=g_1(x)=g_2(y)\\
+            &g_2^{-1}(g_1(x))=y\\
+            &(g_2^{-1}g_1)(x)=y\\
+            &\therefore y\in orb(x)
+        \end{align} Similarly, $x\in\orb(y)$, giving us $\orb(x)=\orb(y)$
+        \item Suppose $a,b\in\stab(x)$. $(ab)(x)=a(b(x))=a(x)=x$, so $\stab(x)$ is closed. Other properties follow from properties of $G$.
+        \item \begin{align}
+            & g_1(x)=g_2(x)\\
+            & g_2^{-1}g_1(x)=g_1^{-1}g_2(x)\\
+            & g_1^{-1}g_2\in\stab(x)\\
+            & g_2\in g_1\stab(x)\\
+            & g_2\stab(x)=g_1\stab(x)
+        \end{align}. Here we have shown that for each element in the orbit, there are $|\stab(x)|$ ways to send $x$ to that element.
+        \item $h\in\stab(x)\implies ghg^{-1}h(y)=ghg^{-1}g(x)=gh(x)=g(x)=y$.
+    \end{enumerate}
+\end{proof}
+
+If a group acts on a set, the orbits partition the set, and the stabilizers partition the group.
+
+\begin{definition}
+    A $p$-group is a group with order of a power of a prime number.
+\end{definition}
+
+\begin{lemma}
+    The center of a $p$-group $G$ is nontrivial.
+\end{lemma}
+
+\begin{proof}
+    Suppose $G$ acts on $G$ by conjugation and $|G|=p^n$.
+    By the orbit-stabilizer theorem, the size of orbits divide $|G|$ and thus $|\text{orbits}|=p^k$.
+    Additionally, in this context, $g\in Z(G)\iff\orb(g)=\{g\}$.
+    Since the orbits partition $G$, $\Sigma|\text{orbit}|=|G|=p^n$. However, We know that $|\orb(e)|=1$, but the sizes orbits must add to a multiple of $p$ while being a power of $p$ itself. There must therefore be other orbits with size 1, meaning we have more elements in $Z(G)$.
+\end{proof}
+
+\begin{theorem}
+    Groups of order $p^2$ where $p$ is prime are abelian and are isomorphic to either $\mathbb{Z}_{p^2}$ or $\mathbb{Z}_p\oplus\mathbb{Z}_p$.
+\end{theorem}
+
+\begin{proof}
+    $|Z(G)|=p$ or $p^2$. In the former case, $Z(G)$ would be cyclic and thus abelian. In the latter case, the whole group commutes anyways, and is thus still abelian.
+
+    If $G$ has an order of element $p^2$, $G\cong\mathbb Z_{p^2}$. Else, let $g,h\in G$ with $|g|=|h|=p$ and $h\notin\langle g\rangle$. Then, $\langle g\rangle\cap\langle h\rangle=\{e\}$ and we therefore have $\langle g\rangle\langle h\rangle\cong\langle g\rangle\oplus\langle h\rangle\cong\mathbb Z_p\oplus\mathbb Z_p$.
+\end{proof}
+
+Any groups of order 8 that are not abelian are $D_4$ and $Q_8$.
+
+\begin{theorem}
+    Sylow Theorem 1: Suppose $|G|=p^nm$ where $p\nmid m\land n\geq1$. Then, $G$ has a subgroup of order $p^n$.
+\end{theorem}
+
+\begin{proof}
+    Let $\Omega=\{X\subset G:|X|=p^n\}$. $G$ acts on $\Omega$ via left-multiplication: $X\in\Omega,x\in X,g(x)=gx$, and $g(X)=\{gx:x\in X\}$. Note that $|\Omega|=\binom{p^nm}{p^n}$ meaning $p\nmid|\Omega|$.
+
+    Since the orbits partition $\Omega$, $p\nmid \Sigma|\text{orbit}|=|\Omega|$. Therefore, some orbit $\theta$ has a size not divisible by $p$.
+
+    Consider $\upsilon\in\theta$ (remember that $\upsilon$ is a set of size $p^n$. We have that $|\stab(\upsilon)||\orb(\upsilon)|=|G|$. Since $\orb(\upsilon)=\theta$, $|\stab(\upsilon)||\theta|=|G|$. Therefore, $p^n\mid|\stab(\upsilon)|$. 
+
+    In fact, $|\stab(\upsilon)|=p^n$ and therefore we have the subgroup $\stab(\upsilon)$ of size $p^n$ because of the following:
+    \begin{enumerate}
+        \item $\forall h\in\stab(\upsilon),h\upsilon=\upsilon$
+        \item $\forall u\in\upsilon,\stab(\upsilon)u\subset\upsilon\implies p^n\mid|\stab(\upsilon)|$
+    \end{enumerate}
+    This subgroup we found is called a Sylow-$p$ subgroup.
+\end{proof}
+
+\begin{theorem}
+    Sylow Theorem 3: Suppose $G$ is a group with conditions from the previous theorem. Then, the following are true:
+    \begin{enumerate}
+        \item All $p$-Sylow subgroups are conjugates with each other.
+        \item The number of $p$-Sylow subgroups, called $n_p$, is equivalent to 1 modulo p.
+        \item $n_p\mid m$
+    \end{enumerate}
+\end{theorem}
+
+Example: Classify all groups of order $175=5^27$.
+
+There is one 5-Sylow subgroup and one 7-Sylow subgroup. $H,K\unlhd G,H\cap K=\{e\},HK=H\oplus K$. Since there are two possible 5-Sylow subgroups, there are two possibilities for groups of order 175. They are either isomorphic to $\mathbb{Z}_{25}\oplus\mathbb Z_7$ or to $\mathbb{Z}_5\oplus\mathbb{Z}_5\oplus\mathbb{Z}_7$.
+
+\begin{theorem}
+    Cauchy-Frobenius Theorem (Burnside's Lemma): Let $G$ be a group with an action on a set $X$. The number of ordered pairs $(g,x)$ satisfying $g(x)=x$ is equal to the following: \begin{enumerate}
+        \item $\sum_{g\in G}|\Fix(g)|$
+        \item $\sum_{x\in X}|\stab(x)|$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    q[opgeajiap]
+    \begin{enumerate}
+        \item Follows directly from the definition of fixed parts of $g$.
+        \item $\sum_{x\in X}|\stab(x)|=\sum_{x\in X}\frac {|G|}{|\orb(x)|}=|G|\sum_{x\in X}\frac 1 {|\orb(x)|}=|G|\cdot\text{\# of orbits}$
+        This is from $\sum_{x\in\orb(\tilde{x})}\frac 1{|\orb(x)|}=\sum_{x\in\orb(\tilde{x})}\frac 1{|\orb(\tilde{x})|}=|\orb(\tilde{x})|\frac 1{|\orb(\tilde x)|}=1$
+    \end{enumerate}
+\end{proof}
+
+Applications: Find the number of ways to construct a 6-bead bracelet with $n$ different colored beads available (same under rotation). $X=$ set of all possible colorings; $\mathbb{Z}_6$ will act on $X$ via rotation.
+
+0 will correspond to ABCDEF, 1 to FABCDE, 2 to EFABCD, 3 to DEFABC, 4 to CDEFAB, and 5 to BCDEFA.
+
+$|\Fix(0)|=n^6$, $\Fix(1)=\Fix(5)=n$, $|\Fix(2)|=|\Fix(4)|=n^2$, $|\Fix(3)|=n^3$. This gives us that the number of colorings is $\frac {n^6+n^3+2n^2+2n}{6}$.
+
+We may expand this case to say two 6-bead bracelets are also same under flipping. In this case, we may use $D_6$.
+
+\section{Rings}
+
+\begin{definition}
+    A ring is a set $R$ with two operators $+$ and $\cdot$ with the following properties:
+    \begin{enumerate}
+        \item $(R,+)$ is an abelian group.
+        \item $\forall a,b,c\in R,a(bc)=(ab)c,a(b+c)=ab+ac,(b+c)a=ba+ca,ab\in R$ (associativity, distributivity for both sides, and closure)
+    \end{enumerate}
+\end{definition}
+
+Here are some examples:
+\begin{enumerate}
+    \item $\mathbb{C},\mathbb{R},\mathbb{Q}$ and any other fields
+    \item $\mathbb{Z},\mathbb{Z}_n,2\mathbb{Z}$, $M_{2\times2}(\mathbb{R})$, $\mathbb{R}[x]=\{\sum_{k=0}^na_kx^k:a_k\in\mathbb{R}\}$, $\mathbb{Z}[x]$, $\mathbb{Z}[\sqrt2]=\{a+b\sqrt2\:a,b\in\mathbb{Z}\}$.
+\end{enumerate}
+
+\begin{definition}
+    A unity is an element that acts as the multiplicative identity. A unit is an invertible element.
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item The units of $\mathbb{R}[x]$ are nonzero constants.
+    \item The units of $M_{2\times2}$ are matrices with determinant $\pm1$.
+    \item The units of the Gaussian integers are $\pm1,\pm i$.
+\end{enumerate}
+
+Note that some of these do not have a unity. Some textbooks may refer to these rings as rngs.
+
+Here are some basic properties:
+\begin{enumerate}
+    \item The unity, if it exists, is unique.
+    \item $a0=0a=0$
+    \item $a(-b)=(-a)b=-ab$
+\end{enumerate}
+
+\begin{definition}
+    A zero-divisor of a ring $R$ is any element $a\in R$ such that $\exists b\in R$ where $b\neq0\land ab=0$.
+\end{definition}
+
+\begin{definition}
+    A ring $R$ is an integral domain if it is commutative, has a unity, and has no zero-divisors.
+\end{definition}
+
+Examples: $\mathbb{Z}_7,\mathbb{R}[x]$
+
+\begin{theorem}
+    If $R$ is an integral domain, $a\neq0\land ab=ac\implies b=c$.
+\end{theorem}
+
+\begin{proof}
+    $ab-ac=0$. We may use distributivity to get $a(b-c)=0$. Since $a\neq0$ and there are no zero-divisors, we automatically get that $b-c=0$ and thus $b=c$.
+\end{proof}
+
+\begin{theorem}
+    A finite integral domain $R$ is a field.
+\end{theorem}
+
+\begin{proof}
+    Let $a\in R$ and $a\neq0$. Then, at some point, some elements in the list $a,a^2,\dots,a^i,...,a^j$ must repeat such that $a^i=a^j$. From this, we may obtain $aa^{j-i-1}=1$. Therefore, we have a unity, and every element has an inverse.
+\end{proof}
+
+\begin{definition}
+    Let $R$ be a ring. The characteristic of $R$, denoted $char(R)$, is:
+    \begin{enumerate}
+        \item $n\in\mathbb{N}$ provided $\forall x\in R,nx=0$ ($x$ added $n$ times).
+        \item 0 otherwise.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $R$ be a ring. If the minimum number of times we add 1 to get back to 0 is $n$, then $n=char(R)$.
+\end{theorem}
+
+\begin{theorem}
+    If $R$ is a field, its characteristic is 0 or prime.
+\end{theorem}
+
+\begin{corollary}
+    A field contains either $\mathbb{Z}_p$ or $\mathbb{Q}$.
+\end{corollary}
+
+\begin{proof}
+    If the characteristic of a field is $p$, it contains $\mathbb Z_p$. Else it contains $\mathbb{Q}$. Elements for either case can all be generated by 1.
+\end{proof}
+
+\begin{corollary}
+    A Ring with unity contains $\mathbb{Z}_n$ or $\mathbb{Z}$.
+\end{corollary}
+
+\begin{proof}
+    Suppose $char(R)=ab$ with $a,b>1$. Then, $(a\cdot1)(b\cdot1)=ab=0$. Here, $a$ and $b$ are zero-divisors.
+\end{proof}
+
+Example: Let $n\in\mathbb N$. Consider $\mathbb{Z}_n[i]$ where $i=\sqrt{-1}$.
+
+For this to be a field, the characteristic must be prime, so we may now consider rings of form $\mathbb{Z}_p[i]$ where $p$ is prime. We now want to eliminate rings with zero-divisors to finally get fields.
+
+$(a+bi)(c+di)=0\implies ac-bd=0\land ad+bc=0\implies ac=bd\land a=\frac{bd}c\implies\frac{bd^2}c=-bc\implies b(c^2+d^2)=0$. We do not want $b$ to be 0, so we may check quadratic residues to see when $c^2+d^2$ can be zero. It turns out that if $p\equiv1\pmod 4$, we may find zero-divisors. Furthermore, it is true that $p\equiv4\pmod4\iff\mathbb{Z}_p[i]$ is a field.
+
+\section{Ideals}
+Note: we assume $R$ is commutative unless otherwise specified.
+\begin{definition}
+    A subring $A\subset R$ is called a (two-sided) ideal if $\forall r\in R,a\in A,ra\in A$.
+\end{definition}
+
+\begin{definition}
+    If $a\in R$, $\langle a\rangle=\{ar:r\in R\}$ is called the ideal generated by $a$. Furthermore, if $a_1,a_2,\dots,a_n\in R$, $\langle a_1,a_2,...,a_n\rangle=\{r_1a_1+r_2a_2+\cdots+r_na_n:r_1,r_2,...,r_n\in R\}$
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item $\{0\}$ and $R$ are both ideals of $R$.
+    \item $n\mathbb{Z}=\langle n\rangle$ for $n\in\mathbb{Z}$.
+    \item $\forall a\in R$, $\langle a\rangle$ is an ideal.
+    \item In $\mathbb{R}[x]$, $\langle x,3\rangle=\mathbb{R}[x]$. In $\mathbb{Z}[x]$, $\langle x,3\rangle$ is the ring of polynomials with a constant term that is a multiple of 3.
+\end{enumerate}
+
+\begin{definition}
+    Let $A\subset R$ be an ideal. The factor ring $R/A$ is defined as $\{r+A:r\in R\}$ under the operations $(r_1+A)+(r_2+A)=r_1+r_2+A$ and $(r_1+A)(r_2+A)=r_1r_2+A$.
+\end{definition}
+
+\begin{lemma}
+    The definition above only works for ideals.
+\end{lemma}
+
+\begin{proof}
+    From our knowledge of cosets, we know that $r+A=s+A\iff r-s\in A$. From this, it is simple to show that the operation works for ideals. If $A$ is not an ideal, $\exists r\in R,a\in A$ where $ra\notin A$. Then, $(r+A)(a+A)=(r+A)(0+A)$ and $(r+A)(a+A)=ra+A$. However, this means that $r+a-0=r+a\in A$.
+\end{proof}
+
+\begin{definition}
+    Let $A\subset R$ be an ideal.
+    \begin{enumerate}
+        \item $A$ is maximal if there is no other ideal $B$ for which $A\subsetneq B\subsetneq R$.
+        \item $A$ is prime if $\forall x,y\in R,xy\in A\implies x\in A\lor y\in A$.
+    \end{enumerate}
+\end{definition}
+
+Examples within $\mathbb{R}[x]$:
+\begin{enumerate}
+    \item $\langle x\rangle$ is prime and maximal. Suppose we have a bigger ideal. This must include constants, but this implies that the bigger ideal is $\mathbb{R}[x]$ itself. Therefore, this example must be maximal. On the other hand, any non-constant factor of an element in this ideal must be a multiple of $x$ and thus in $\langle x\rangle$. Furthermore, for any factorization of an element in this ideal, there must be a non-constant factor. This proves that this ideal is prime.
+    \item $\langle x^2\rangle$ is neither prime nor maximal. This ideal is not maximal because $\langle x^2\rangle\subsetneq\langle x\rangle\subsetneq\mathbb{R}[x]$. It is also not prime because $xx\in\langle x^2\rangle$ but $x\notin\langle x^2\rangle$.
+    \item $\langle x^2-1\rangle$ is neither prime nor maximal. This is not maximal because $\langle x^2-1\rangle\subsetneq\langle x-1\rangle\subsetneq\mathbb{R}[x]$. It is not prime because $(x+1)(x-1)\in\langle x^2-1\rangle$ but $x+1\notin\langle x^2-1\rangle$.
+    \item $\langle x^2+1\rangle$ is both prime and maximal. Suppose there is a different ideal $B$ that has $\langle x^2+1\rangle$ as a subring. Then, we have a polynomial $P(x)=(x^2+1)Q(x)+R(x)\in B$ with $\deg R(x)<2$ (i.e. $R(x)=ax+b$). Note that it must be true that $ax+b\in B$. If $a=0$ and $b\neq0$, we can get that $B=\mathbb{R}[x]$. Else, $(ax+b)(ax-b)=a^2x^2-b^2\in B$ and $a^2(x^2+1)=a^2x^2+a^2\in B$. Therefore, we get that the constant $a^2+b^2\in B$, again obtaining that $B=\mathbb{R}[x]$. We can thus conclude $\langle x^2+1\rangle$ is maximal. On the other hand, $\langle x^2+1\rangle$ is not prime because it is not possible for $P(x)Q(x)=(x^2+1)R(x)$ where both $P(x)$ or $Q(x)$ do not have a factor of $x^2+1$. Since $\pm i$ are two roots in the right-hand side, $i$ must be a root of one of the polynomials on the left-hand side. WLOG $i$ is a root of $P(x)$. However, the conjugate $-i$ must also be a root of $P(x)$, meaning $x^2+1\mid P(x)$.
+\end{enumerate}
+
+Consider $\mathbb{Z}[i]/\langle3-4i\rangle$. We want to find a similar ring to this (note we have not defined ring isomorphisms left).
+
+We may find the elements $(3+4i)(3-4i)=25\in\langle3-4i\rangle$ and $i(3-4i)-(3i+4)=i+7\in\langle3-4i\rangle$. In a sense, $25=0$ and $i=-7$. This is because within $\mathbb{Z}[i]/\langle3-4i\rangle$, $25+\langle3-4i\rangle=0+\langle3-4i\rangle$ and $i+\langle3-4i\rangle=-7+\langle3-4i\rangle$ because $25-0,i+7\in\langle3-4i\rangle$. Therefore, we may think that the numbers $0,1,...,25$ are "representatives" of $\mathbb{Z}[i]/\langle3-4i\rangle$.
+
+Because $|c||d|=|cd|$ and $|3-4i|=5$, we must have $\forall a\in\langle3-4i\rangle,25\mid|a|^2$. Suppose $a=(3-4i)(a+bi)=(3u-4v)+(3v+4u)i$. Then, to obtain an integer representative of $a$, we want $3v+4u=0$. Suppose $v=4t$ and $u=-3t$. Then, $3v+4u=-9t-16t=-25t$. We therefore know that we do not need any other representative than the numbers $0,1,...,25$. We can now say that $\mathbb{Z}[i]/\langle3-4i\rangle$ is "kinda sorta like" $\mathbb{Z}_{25}$.
+
+\begin{theorem}
+    Let $R$ be a commutative ring with unity and $A\subset R$.
+    \begin{enumerate}
+        \item $A$ is a prime ideal iff $R/A$ is an integral domain.
+        \item $A$ is a maximal ideal iff $R/A$ is a field.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Note: Any element we invoke is an element of $R$.
+    \begin{enumerate}
+        \item Suppose $R/A$ is not an integral domain. Then $\exists a+A,b+A\in R/A$ where both elements are not $A$, such that $(a+A)(b+A)=0+A$. Here, $ab\in A$, but $a,b\notin A$, meaning $A$ is not prime.
+
+        Suppose $A$ is not prime. Then $\exists a,b\notin A$ where $ab\in A$. Then, $(a+A)(b+A)=ab+A=A$, and we have that $a+A$ and $b+A$ are zero-divisors, giving us that $R/A$ is not an integral domain.
+        
+        \item Suppose $A$ is maximal. Let $b+A\in R/A$ with $b\notin A$. Consider the set $S=\{br+a:r\in R,a\in A\}$. This is an ideal. Since $b\in S$ and $A\subset S$, $S=R$. Since $1\in S$, $\exists\tilde{\tilde{r}}\in R,\tilde{a}\in A$ for which $b\tilde{\tilde{r}}+\tilde{a}=1$.  This means that for the arbitrary element $b+A$, there is always an inverse $\tilde{\tilde{r}}+A$. This gives us that $R/A$ is a field.
+
+        Suppose $A$ is not maximal. Then, $\exists B$ such that $A\subsetneq B\subsetneq R$. Suppose $b\in B$ in which $b\notin A$. Consider the set $S=\{br+a:r\in R,a\in A\}$. Note that $S=B$ because $B\subset S$ and every element of the form $br+a$ is a member of $B$. Since $B$ is an ideal that is not $R$, $1\notin B$ (1 would completely generate $R$). Therefore, $b\tilde{r}+\tilde{a}\in S$ is never 1. Therefore, $b+A$ does not have an inverse. If it had an inverse $x+A$, $bx+\tilde{\tilde{a}}=1\in B$.
+    \end{enumerate}
+\end{proof}
+
+Note that if $A$ is maximal, $A$ is prime. 
+
+\begin{theorem}
+    Let $D$ be an integral domain. Then, there is a field $F$ that contains a subring isomorphic to $D$.
+\end{theorem}
+
+\begin{theorem}
+    Let $(a,b)\in D\times D$ with $b\neq0$. We define an equivalence class on these. $(a,b)\sim(c,d)\iff \frac a b=\frac c d$. Furthermore, $(a,b)(c,d)=(ac,bd)$ and $(a,b)+(c,d)=(ad+bc,bd)$. This is the field we want. Note that we have not proven that the operations are well-defined and that the field actually has its field properties.
+\end{theorem}
+
+\section{Ring Isomorphisms and Homormorphisms}
+
+\begin{definition}
+    Ring isomorphisms are defined similarly to group isomorphisms, with the addition of the property $\phi(a+b)=\phi(a)+\phi(b)$ to account for the new binary operator. Ring homomorphisms have the same property as ring isomorphisms, except ring homomorphisms need not be bijective. Kernels and images are similarly defined.
+\end{definition}
+
+Here are some properties of ring homomorphisms given $\phi:R\rightarrow S,A\subset R$ is a subring, and $B$ is an ideal of $S$.
+\begin{enumerate}
+    \item For any $r\in R,n\in\mathbb{Z}$, $\phi(nr)=n\phi(r)$
+    \item If $A$ is an ideal and $\phi$ is onto $S$, $\phi(A)$ is an ideal of $S$ and $\ker\phi$ is an ideal of $R$.
+    \item $\phi$ maps the unity of $R$ to the unity of $S$ and units of $R$ to units of $S$.
+    \item $\phi$ is an isomorphism iff $\phi$ is onto and $\ker\phi=\{0\}$.
+    \item First Isomorphism Theorem for Rings: $\theta:R/\ker\phi\rightarrow\phi(R)$ is an isomorphism in which $r+\ker\phi$ is mapped to $\phi(r)$.
+    \item Every ideal of ring $R$ is a kernel of a ring homomorphism of R. An ideal $A$ is kernel of the mapping of $r$ to $r+A$ from $R$ to $R/A$. Such a homomorphism is called the natural homomorphism from $R$ to $R/A$.
+\end{enumerate}
+
+Example: $\mathbb{Z}_m$ is a homomorphic image of $\mathbb{Z}$ through $\phi:\mathbb{Z}\rightarrow\mathbb{Z}_m$ in which $\phi(x)=x\pmod m$.
+
+\begin{theorem}
+    $D$ is an integral domain $\implies$ $D[x]$ is an integral domain.
+\end{theorem}
+
+\begin{proof}
+    Suppose $D[x]$ is not an integral domain. This means that for some polynomials, $(a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0)(b_mx^m+b_{m-1}x^{m-1}+\cdots+b_0)=0$ where $a_n,b_m\neq0$. This means that $a_nb_m=0$, so $a_n$ and $b_m$ are zero-divisors, implying that $D$ is not an integral domain.
+\end{proof}
+
+\begin{theorem}
+    Division Algorithm for $F[x]$: Let $F$ be a field and let $f(x),g(x)\in F[x]$ with $g(x)\neq0$. Then, $\exists!q(x),r(x)\in F[x]$ such that $g(x)=f(x)q(x)+r(x)$ and either $r(x)=0$ or $\deg r(x)<\deg f(x)$.
+\end{theorem}
+
+\begin{corollary}
+    Remainder Theorem: Suppose $F$ is a field with $a\in F$, $f(x)\in F[x]$. Then $f(a)$ is a remainder of the division of $f(x)$ by $x-a$.
+\end{corollary}
+
+\begin{corollary}
+    Factor Theorem: Suppose $F$ is a field with $a\in F$. Then $a$ is a zero of $f(x)$ iff $x-a$ is a factor of $f(x)$.
+\end{corollary}
+
+\begin{definition}
+    A principal ideal domain (PID) is an integral domain $R$ in which every ideal has the form $\langle a\rangle=\{ra:r\in R\}$ for some $a\in A$.
+\end{definition}
+
+Examples: $\mathbb{Z}$ is a PID but $\mathbb{Z}[x]$ is not a PID because $\langle x,3\rangle$ cannot generated by a minimum polynomial.
+
+\begin{theorem}
+   Let $F$ be a field. Then, $F[x]$ is a PID. 
+\end{theorem}
+
+\begin{theorem}
+    Let $I$ be an ideal of $F[x]$. Suppose $f(x)\in I$ is a polynomial of minimum degree. Let $g(x)\in I$. By the division algorithm, $g(x)=f(x)q(x)+r(x)$. since $f(x)\in I$, $f(x)q(x)\in I$. Furthermore, since $g(x)\in I$, $g(x)-f(x)q(x)=r(x)\in I$. Since $\deg r(x)<\deg f(x)$, it must be so that $r(x)=0$. Therefore, a minimum degree polynomial generates the entire ideal.
+\end{theorem}
+
+With the same reasoning, we may obtain a criterion for $I=\langle g(x)\rangle$. $I=\langle g(x)\rangle\iff g(x)$ is a polynomial of minimum degree in $I$.
+
+\begin{theorem}
+    A polynomial of degree $n$ with coefficients that belong in a field (i.e. the polynomial is in a PID) has at most $n$ roots up to multiplicity.
+\end{theorem}
+
+\begin{proof}
+    We prove this by induction. Induction statement: $P(n)$ means a polynomial of degree $n$ has at most $n$ roots up to multiplicity.
+
+    Base case: a polynomial of degree 1 would be of form $ax+b$. The only root is $-\frac b a$.
+
+    Inductive step: Assume the inductive statement $P(n-1)$. We want to prove $P(n)$. Let $p(x)$ be a polynomial of degree $n$. If this has a root $k$, by the factor theorem, $p(x)/(x-r)$ is a polynomial and has degree of $n-1$. This means that $p(x)/(x-r)$ has at most $n-1$ roots. Therefore, $p(x)$ has at most $n-1+1=n$ roots. If $p(x)$ has no roots, we are also done.
+\end{proof}
+
+Example of failure in a non-PID: $x^3\in\mathbb{Z}_8[x]$ has more than 3 roots.
+
+Consider $\phi:\mathbb{R}[x]\rightarrow\mathbb{C}$ given by $\phi(f)=f(i)$ where $i=\sqrt{-1}$. This is a ring homomorphism. 
+
+$f\in\ker\phi\iff f(i)=0$. This means that $x^2+1\in\ker\phi$. Furthermore, there are no polynomials of smaller degree where $f(i)=0$. Since $\mathbb{R}$ is a field, $\mathbb{R}[x]$ is a PID. Therefore, we can say $\ker\phi=\langle x^2+1\rangle$.
+
+In addition, since $\phi(a+bx)=a+bi$, $\mathbb{C}\subset\Img\phi$. Furthermore, since for any $f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots a_0$, $f(i)\in\mathbb{C}$, we may see that $\Img\phi\subset\mathbb{C}$. Therefore, $\Img\phi=\mathbb{C}$.
+
+By the first isomorphism theorem for rings, we may therefore conclude that $\mathbb{R}[x]/\langle x^2+1\rangle\cong\mathbb{C}$.
+
+By a similar method, we may also see that $\mathbb{Q}[x]/\langle x^2-2\rangle\cong\mathbb{Q}[\sqrt2]$.
+
+\section{Polynomial Factorization}
+
+\begin{definition}
+    For $n\in\mathbb{Z}$ and $f(x)\in\mathbb{Z}[x]$, we say $n\mid f(x)$ if $\frac{f(x)}n\in\mathbb{Z}[x]$.
+\end{definition}
+
+\begin{lemma}
+    Given $f(x),g(x)\in\mathbb{Z}[x]$, if $p$ is prime $p\mid f(x)g(x)\implies p\mid f(x)\lor p\mid g(x)$.
+\end{lemma}
+
+\begin{proof}
+    Let $\overline{p(x)}$ and $\overline{g(x)}$ be $p(x)$ and $g(x)$ reduced modulo $p$, respectively. $\overline{p(x)}\cdot\overline{g(x)}=0\implies\overline{p(x)}=0\lor\overline{g(x)}=0$ because $\mathbb{Z}_p$ is an integral domain, meaning $\mathbb{Z}_p[x]$ is also an integral domain.
+\end{proof}
+
+\begin{definition}
+    Let $D$ be an integral domain. A polynomial $p(x)\in D[x]$ that is neither zero nor a unit is irreducible over $D$ if whenever $p(x)=g(x)h(x)$ with $g(x),h(x)\in D[x]$, then either $g(x)$ or $h(x)$ is a unit in $D[x]$. Otherwise $p(x)$ is reducible.
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item $f(x)=2x^2+4$ is reducible over $\mathbb{Z}[x]$ and $\mathbb{C}[x]$ but is irreducible over $\mathbb{Q}[x]$ and $\mathbb{R}[x]$.
+    \item $g(x)=x^2-2$ is irreducible in $\mathbb{Z}_3[x]$ but reducible in $\mathbb{Z}_7[x]$.
+\end{enumerate}
+
+\begin{theorem}
+    A polynomial of degree 2 or 3 is irreducible in $F[x]$ iff it has no roots in the field $F$.
+\end{theorem}
+
+\begin{proof}
+    If a polynomial of degree 2 or 3 factors such that none is a unit, then one of those factors must be linear. This means that there is a root.
+\end{proof}
+
+\begin{theorem}
+    If a polynomial in $\mathbb{Z}[x]$ is reducible over $\mathbb{Q}$, then it is reducible over $\mathbb{Z}$.
+\end{theorem}
+
+\begin{proof}
+    Let $m$ be the least common denominator of the coefficients of $f(x)$  and $n$ be the least common denominator of the coefficients of $g(x)$.
+    Furthermore, let $\tilde{f}(x)=mf(x),\tilde{g}(x)=ng(x)$ so that $\tilde{f}(x),\tilde{g}(x)\in\mathbb{Z}[x]$.
+
+    Then, $h(x)=f(x)g(x)=\frac1{mn}\tilde{f}(x)\tilde{g}(x)$. Suppose a prime $p\mid mn$, This means that $p\mid\tilde{f}(x)\lor p\mid\tilde{g}(x)$. WLOG $p\mid\tilde{f}(x)$. This means $\tilde{f}(x)=p\tilde{\tilde{f}}(x)$. Since $p\mid mn$, $\frac p{mn}=\frac1k$ for some integer $k$. This allows us to rewrite $h(x)$ as $\frac1k\tilde{\tilde{f}}(x)\tilde{g}(x)$. This process can be repeated to alter the polynomials to get integer-coefficient factors.
+\end{proof}
+
+\begin{theorem}
+    Modulo $p$ irreducibility test: Suppose $f(x)\in\mathbb{Z}[x]$ and let $p$ be prime. Let $\overline{f}(x)$ be the polynomial $f(x)$ reduced modulo $p$. Then $\deg(f(x))=\deg(\overline{f}(x))\land\overline{f}(x)$ is irreducible over $\mathbb{Z}_p\implies f(x)$ is irreducible over $\mathbb{Q}[x]$.
+\end{theorem}
+
+\begin{proof}
+    We want to prove the contrapositive statement. Suppose $f(x)=p(x)q(x)$ where the degrees of $f(x)$, $p(x)$, and $q(x)$ are $m$, $n$, and $m-n$, respectively. Additionally, $p(x),q(x)\in\mathbb{Z}[x]$. Then, we have $\tilde{f}(x)=\tilde{p}(x)\tilde{q}(x)$. We may assume each function has the same degree as before (otherwise, we satisfy that the degree of $f(x)$ isn't preserved). However, this means that $\tilde{f}(x)$ is reducible over $\mathbb{Z}_p$.
+\end{proof}
+
+Example: $x^4+3x+1$ is irreducible over $\mathbb{Q}[x]$ because in $\mathbb{Z}_2[x]$, $x^4+x+1$ is irreducible.
+
+\begin{theorem}
+    Eisenstein's Criterion: let $p$ be prime and let $f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0\in\mathbb{Z}[x]$. If the following conditions are satisfied, then $f(x)$ is irreducible over $\mathbb{Q}$.
+    \begin{enumerate}
+        \item $p\nmid a_n$
+        \item $p\mid a_{n-1},a_{n-2},...,a_1,a_0$
+        \item $p^2\nmid a_0$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    proof
+\end{proof}
+
+\begin{definition}
+    For any prime $p$, the $p$th cyclotomic polynomial is defined as $\Phi_p(x)=\frac{x^p-1}{x-1}=x^{p-1}+x^{p-2}+\cdots+x+1$.
+\end{definition}
+
+\begin{corollary}
+    For any prime $p$, $\Phi_p(x)$ is irreducible over $\mathbb{Q}[x]$.
+\end{corollary}
+
+\begin{proof}
+    $\Phi_p(x+1)=\frac{(x+1)^p-1}{x-1+1}=x^p+\binom{p}{1}x^{p-1}+\binom{p}{2}x^{p-2}+\cdots+\binom{p}{p-2}x+p$. By Eisenstein's criterion, $\Phi_p(x+1)$ is irreducible. This implies that $\Phi_p(x)$ is also irreducible.
+\end{proof}
+
+Note that if $f(ax+b)$ is irreducible, $f(x)$ is also. Additionally, if $k\neq0$ and $kf(x)$ is irreducible, $f(x)$ is also.
+
+\begin{theorem}
+    Let $F$ be a field and $p(x)\in F[x]$. Then $\langle p(x)\rangle$ is maximal $\iff p(x)$ is irreducible over $F$.
+\end{theorem}
+
+\begin{proof}
+    Forward direction: if $p(x)=g(x)h(x)$ where $g(x),h(x)$ are non-unit elements, then we have $\langle p(x)\rangle\subsetneq\langle g(x)\rangle\subsetneq F[x]$. It is clear that $\langle p(x)\rangle\subset\langle g(x)\rangle$ holds. $\langle p(x)\rangle\neq\langle g(x)\rangle$. Otherwise, if $g(x)\in\langle p(x)\rangle$, then $\deg g(x)\geq\deg p(x)$ because $p(x)\mid g(x)$. However, this would mean that either $p(x)=g(x)h(x)$ is impossible or $\deg h(x)=0$. In the latter case, $h(x)$ is a unit.
+
+    Reverse direction: We want to prove the contrapositive. Suppose $\langle p(x)\rangle$ is not maximal. Since $F[x]$ is a PID, we then have some $q(x)$ such that $\langle p(x)\rangle\subsetneq\langle q(x)\rangle\subsetneq F[x]$. This means $p(x)=q(x)l(x)$ for some $l(x)$. Since $\langle q(x)\rangle\subsetneq\ F[x]$, we know $q(x)$ cannot be a unit. In addition, since $\langle p(x)\rangle\subsetneq\langle q(x)\rangle$, we know that $l(x)$ cannot be a unit. Therefore, we have that $p(x)$ is reducible over $F$.
+\end{proof}
+
+\begin{corollary}
+    If $\langle p(x)\rangle\in F[x]$ is maximal, $F[x]/\langle p(x)\rangle$ is a field.
+\end{corollary}
+
+\begin{theorem}
+    We can always find a field of order $p^k$ for some prime $p$ and positive integer $k$.
+\end{theorem}
+
+\begin{proof}
+    It can be seen that for any irreducible polynomial $q(x)\in\mathbb{Z}_p[x]$ where $q$ is prime and $\deg q(x)=k-1$, $\mathbb{Z}_q[x]/\langle p(x)\rangle$ is a field from the previous lemma and theorem. Each element is of the form $a_{k-1}x^{k-1}+a_{k-2}x^{k-1}+\cdots+a_1x+a_0$. Since there are $p^{\deg q(x)}=p^k$ choices for each coefficient, there are $p^k$ elements in our field.
+
+    Now we want to demonstrate that there are irreducible polynomials of any degree over $\mathbb{Z}_p[x]$. The number of monic reducible polynomials of degree $k-1$ can be found by unique combinations of roots, which amounts to $\binom{k-1+p}{k-2}$. However, this number is less than the number of possible monic functions which amounts to $p^{k-1}$. Therefore, there must be some irreducible polynomial of degree $k-1$. 
+\end{proof}
+
+\begin{theorem}
+    Suppose $F$ is a field and $a(x),b(x),p(x)\in F[x]$. If $p(x)$ is irreducible and $p(x)\mid a(x)b(x)$, then $p(x)\mid a(x)\lor p(x)\mid b(x)$.
+\end{theorem}
+
+\begin{proof}
+    $\langle p(x)\rangle$ is prime because $F[x]/\langle p(x)\rangle$ is a field and therefore also an integral domain. $a(x)b(x)=p(x)g(x)\in\langle p(x)\rangle$ for some $g(x)\in F[x]$. Therefore, $a(x)\in\langle p(x)\rangle\lor b(x)\in\langle p(x)\rangle$, meaning $p(x)\mid a(x)\lor p(x)\mid b(x)$.
+\end{proof}
+
+\section{Factorization in Integral Domains}
+
+\begin{definition}
+    Let $D$ be an integral domain.
+    \begin{enumerate}
+        \item $a,b\in D$ are associates if $a=ub$ for some unit $u$.
+        \item When $a\in D$ and $a\neq0$, $a$ is irreducible if $a$ is not a unit and whenever $a=bc$ for some $b,c\in D$, either $b$ or $c$ is a unit.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    An integral domain $D$ is a UFD if every nonzero, non-unit elements can be written as a product of irreducibles, and such factorization is unique up to associates and the order in which the products appear.
+\end{definition}
+
+\begin{theorem}
+    $\mathbb{Z}[x]$ is a unique factorization domain.
+\end{theorem}
+
+\begin{definition}
+    Let $d\in\mathbb{Z}$ be square-free. Consider the ring $\mathbb{Z}[\sqrt d]=\{a+b\sqrt d:a,b\in\mathbb{Z}\}$. We define the norm of $a+b\sqrt d$ as $N(a+b\sqrt d)=|a^2-b^2d|$.
+\end{definition}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item $N(x)=0\iff x=0$
+        \item $N(xy)=N(x)N(y)$
+        \item $N(x)=1\iff x$ is a unit
+        \item $N(x)$ is prime $\implies$ x is irreducible
+    \end{enumerate}
+\end{theorem}
+
+Examples:
+\begin{enumerate}
+    \item Let's examine $\mathbb{Z}[\sqrt{-3}]$. $(1+\sqrt3)(1-\sqrt3)=4=2\cdot2$. None of these factors are units, and it is verifiable that $1+\sqrt3\neq2u$ for some unit $u$. Therefore, $\mathbb{Z}[\sqrt{-3}]$ is not a UFD. Furthermore, since $2\nmid 1+\sqrt3\land2\nmid1-\sqrt3$, $2$ is not a prime element.
+
+    Suppose $ab=2$. We know that $N(ab)=N(a)N(b)=4$. If $N(a)$ and $N(b)$ are not units, they both do not evaluate to 1. It must be the case that $N(a)=N(b)=2$. Since $N(c+d\sqrt{-3})=c^2+3d^2$ never evaluates to $2$, $2$ is irreducible.
+    \item In $\mathbb{Z}[\sqrt5]$, 13 is irreducible. Suppose $ab=13$. This means that $N(ab)=N(a)N(b)=169$. If neither $a$ nor $b$ is a unit, it must be the case that $N(a)=N(b)=13$. $N(x+y\sqrt5)=|c^2-5d^2|\implies c^2-5d^2=\pm13\implies c^2\cong\pm2\pmod5$. However, no quadratic residue modulo 5 is either $2$ or $3$. Therefore, no such value of $a$ and $b$ exist.
+\end{enumerate}
+
+\begin{theorem}
+    If $p$ is prime in a field, it is also irreducible.
+\end{theorem}
+
+\begin{proof}
+    Let $p=ab$. This means that $p\mid ab$. Suppose $p\mid a$. Then, $a=cp$ for some $c$ in the field. Also, $a=cp=cab=abc\implies bc=1\implies b$ is a unit.
+\end{proof}
+
+\begin{lemma}
+    In a field, an element $a$ is irreducible in $F$ iff $\langle a\rangle$ is maximal. Furthermore, if $\langle a\rangle$ is maximal, $F/\langle a\rangle$ is a field.
+\end{lemma}
+
+\begin{proof}
+    The proof is same as what we have for polynomial rings.
+\end{proof}
+
+\begin{lemma}
+    In a PID, an element $a$ is irreducible iff $a$ is prime.
+\end{lemma}
+
+\begin{proof}
+    We just need to show that $a$ is irreducible implies $a$ is prime. In other words, $a\mid bc\implies a\mid b\lor a\mid c$. Consider $\langle a,b\rangle=\langle d\rangle$. Here, $d\mid a$. Since $a$ is irreducible, $d$ is either a unit or $d$ is an associate of $a$. In the former case, since a unit is in $\langle a,b\rangle, 1\in\langle a,b\rangle$. This means that $\exists x,y\in R$ where $ax+by=1$. Then, $acx+bcy=c$, meaning $a\mid c$. In the latter case, $a\mid b$.
+\end{proof}
+
+\begin{theorem}
+    Ascending Chain Theorem: In any PID $D$, a chain of distinct ideals $I_1\subset I_2\subset I_3\subset\cdots$ must be finite in length.
+\end{theorem}
+
+\begin{proof}
+    $\cup I_k$ is an ideal. Let this ideal be $\langle a\rangle$ for some $a\in D$. Since $a\in\cup I_k$, $a\in I_n$ for some $n$. This means that the chain stops at $I_n$.
+\end{proof}
+
+\begin{theorem}
+    If $D$ is a PID, it is also a $UFD$.
+\end{theorem}
+
+\begin{proof}
+    Try to factor $x$. If $x$ is irreducible, we are done.
+    $x=a_1b_1$. Again, suppose $a_1$ is not irreducible. $x=a_2b_2b_1$. Again, suppose $a_2$ is not irreducible. $x=a_3b_3b_2b_1$. This process must terminate by the ascending chain theorem. We may make an ascending chain using $\langle a_1\rangle\subset\langle a_2\rangle\subset\langle a_3\rangle\subset\cdots$. Therefore, we can keep factoring irreducible divisors out of $x$ in a finite amount of steps. We have proved that we have a factorization for any element in the field. Now we must prove uniqueness.
+
+    Suppose $x=p_1p_2\cdots p_n=q_1q_2\cdots q_m$ where all $p_i$ and $q_j$ are prime elements. A prime element $p_1$ divides some $q_j$, meaning $q_j=ap_1$ for some unit $a$. We may then cancel out each prime element from both sides $p_2p_3\cdots p_n=aq_1q_2\cdots q_{j-1}q_{j+1}\cdots q_m$ and repeat the process to get that the two factorizations must be unique up to associates and the order of the factors.
+\end{proof}
+
+\section{Vector Spaces}
+
+\begin{definition}
+    Let $F$ be a field and $V$ a set. $V$ is a vector space if $\forall u,v,w\in V$ and $l,k\in F$, the following is true:
+    \begin{enumerate}
+        \item $u+v=v+u$
+        \item $u+(v+w)=(u+v)+w$
+        \item $\exists\vec0\in V$ with $v+\vec0=v$
+        \item $k(u+v)=ku+kv$
+        \item $(k+l)u=ku+lu$
+        \item $(kl)u=k(lu)$
+        \item $1\cdot u=u$
+        \item $\exists-v$ such that $v+-v=\vec0$
+    \end{enumerate}
+\end{definition}
+
+Ex. 
+\begin{enumerate}
+    \item For a field $F$, $F\oplus F$ is a vector space over $F$ with the operations $(a,b)+(c,d)=(a+c,b+d)$ and $k(a,b)=(ka,kb)$. This field can be extended like $F\oplus F\oplus F\cdots$.
+    \item The set of all real-valued functions is a vector space over $\mathbb{R}$.
+    \item The set of all polynomials in $\mathbb{R}$ is a vector space over $\mathbb{R}$.
+    \item The set of all everywhere-continuous functions is a vector space over $\mathbb{R}$.
+    \item The set of all everywhere-differentiable functions is a vector space over $\mathbb{R}$.
+    \item The set of all polynomials with coefficients in $\mathbb{Z}$ is not a vector space over $\mathbb{R}$.
+\end{enumerate}
+
+Some basic facts:
+\begin{enumerate}
+    \item $-1\cdot\vec v=-\vec v$
+    \item $0\vec v=\vec0$
+    \item The solutions to $2x+3y+4z=0$ in $\mathbb{R}^3$ form a subspace of $\mathbb{R}$. Note that solutions to $2x+3y+4z=1$ do not form a subspace.
+    \item If $V$ and $W$ are vector spaces over $F$, we define $V+W=\{v+w:v\in V,w\in W\}$. This is a vector space over $F$.
+\end{enumerate}
+
+\begin{definition}
+    $W\subset V$ is a subspace of $V$ if $W$ is a vector space over the same field under same operations.
+\end{definition}
+
+\begin{definition}
+    Let $v_1,v_2,...,v_n\in V$ over $F$. A linear combination of these vectors is an expression of the form $\sum_{k=1}^n a_kv_k$ where each $a_k\in F$.
+
+    The span of the aforementioned vectors, denoted as $\vspan\{v_1,v_2,...,v_n\}$ is the set of all linear combinations of the noted vectors. It is true that the span of vectors is a subspace of the original vector space.
+\end{definition}
+
+\begin{theorem}
+    The following is true:
+    \begin{enumerate}
+        \item Vectors are linearly dependent iff you can write one vector as a linear combination of others
+        \item IF vectors in a set $S$ are linearly dependent, there is a vector $v_k\in S$ in which $\vspan\{S\}=\vspan\{S-\{v_k\}\}$.
+        \item If vectors in a set $S$ are linearly independent and an element $a\in\vspan\{S\}$, $a$ can be uniquely be written as a linear combination of vectors in $S$.
+        \item Any three vectors in $\mathbb{R}^2$ are linearly dependent. This can be generalized.
+        \item In the space of differentiable functions over $\mathbb{R}$, any two different $e^{kx}$ and $e^{jx}$ are linearly independent. (Suppose $ae^{kx}+be^{jx}=0$. Then $-\frac a be^{(k-j)x}=0$, forcing $k=j$) This can be generalized using induction.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Let $V=\vspan\{v_1,v_2,...,v_n\}$ with $S=\{v_1,v_2,...,v_n\}$. Then, $S$ forms a basis for $V$ if the vectors in $S$ are linearly dependent.
+\end{definition}
+
+Example: Any field $\mathbb{F}^3$ has the standard basis $\{\langle1,0,0\rangle,\langle0,1,0\rangle,\langle0,0,1\rangle\}$.
+
+Any two linearly independent vectors in $\mathbb{F}^2$ form a basis. 
+
+
+
+
+
+
+
+
+
+
+\section{Free Groups}
+
+
+% nonredundant set of relations and generators to find an isomorphic group
+
+% \begin{definition}
+%     Let $S=\{a,b,c\dots\}$ and $S^{-1}=\{a^{-1},b^{-1},c^{-1}\dots\}$ be sets.
+%     Let $W(S)=\{x_1x_2x_2\cdots\:x_i\in S\cup S^{-1}\}$
+%     The element $aa^{-1}=e$.
+% \end{definition}
+
+% The equivalence class of $W(S)$: $\bar u=\bar v$ if there is some finite sequence of insertions or deletions of elements of form $xx^{-1}$ or $x^{-1}x$ that takes $u$ to $v$.
+
+% Some properties: $\bar u\bar v=\bar{uv}$. Under this is $W(S)$ a group: free group of $S$.
+
+% \begin{theorem}
+%     Universal Mapping Property: Every group is a homomorphic image of a free group. 
+% \end{theorem}
+
+% \begin{proof}
+%     Let G be a group, S be a set of generators G, and F be the free group on $S$. WWTF $\phi:F\rightarrow G$.
+
+%     Let $\bar{x_1x_2\dots}\in F$. $\phi(\overline{x_1x_2\cdots})=x_1x_2\cdots$
+% \end{proof}
+
+% \begin{corollary}
+%     all groups are thus isomorphic to a factor group of free group
+% \end{corollary}
+
+% Let $F$ be the free group on the subset $\{a,b\}$ and let $N$ be the smallest normal subgroup of $F$ containing $\$\{a^4.b^2,(ab)^2\}$. We want to show $F/N\cong D_4$.
+
+% $\phi:F/N\rightarrow D_4$
+% $\phi(a)\rightarrow R_90$
+% $phi(b)\rightarrow H$
+
+% $\ker\phi$ contains $N$. 
+
+% the left cosets of $N=K=\{N,aN,a^2N,...\}$. This is closed. 
+% We therefore have |F/N|\leq 8
+
+
+% F/\ker\phi\cong[(F/N)/(\ker\phi/N)]
+
+% \begin{definition}
+%     Let G be the group by a subset A={a_1,a_2,\dots,a_n}/ Let F be the free group on A> Let W={w_1,w_2,\dots,w_n} be a subset of F> Let N be the smallest subgroup of F containing W. Then we can say $G=\langle a_2,a_2,\dots,a_n:w_1=w_2=\cdots=w_n=e\rangle$ if F/N\cong G, sending $a_i N\rightarrow a_i$
+% \end{definition}
+
+% \begin{theorem}
+%     Dyke's Theorem: Let $G=\langle a_1,a_2,\dots,a_n:w_1=w_2=\cdots=w_t\neq e\rangle$ and $\tilde G=\langle a_1,a_2,\dots,a_n:w_1=w_2=\cdots=w_n=w_t+1=\cdots=w_{t+k}\rangle$
+
+%     Let F be the free group on $\{a_1,a_2,...a_n\}$ and N the smallest normal subgroup containing w1 to wt, M be smallest normal subgroup with w1,w2,//wt+k
+
+%     F/N\cong G,F/M\cong \tilde G; \phi:F/N\rightarrowF/M by aN\rightarrow aM
+
+% \end{theorem}
+
+% \begin{corollary}
+%     If a group K follows all the defining relations of a finite group G and |L|\geq|G|, then K\cong G. 
+% \end{corollary}
+
+% G=<a,b:a^2=b^2=(ab)^2>, G=F/N, F free group on {a,b} and N smallest normal subgroup with a^2b^-2 and a^2(ab)^-2
+% H=<b>, K={H,aH}. this is closed under multiplication, and we also get that there are at most 8 elements in the group. 
+% Defining A=[0 1] B = [0 1]
+%         [-1 0]       [1 0]
+
+%         we get such a group with exactly 8 elements. 
+%     note A^2=B^2=(AB)^2=-e. from here, we may observe that this is the quaternion group Q_8  in disguise. 
+
+% notes: integers only nontrivial abelian group that is free, D_4=<a,b:a^4=b^2=(ab)^2=e>. a,b,c generators, a^2=b^2+c^2=(ab)^3=(bc)^3=(ac)^2=e; a(12) b(23) c(34) gives S_4
+
+% word homotopy; nontrivial self-homotopy achieved by not going back during changing a representation of a word
+
+% also there are geometric implications
+
+\section{Geometric Constructions}
+
+\begin{definition}
+A ruler and compass construction on a set of points $P_0\subset\mathbb{R}^2$ is defined by two operations.
+\begin{enumerate}
+    \item R: Draw a straight line between two points in $P_0$.
+    \item C: Draw a circle centered around at some point $p\in P_0$ with radius equal to the distance between two points in $P_0$.
+\end{enumerate}
+\end{definition}
+
+$R^2$ would be constructible in one step from $P_0$ if $p$ is the intersection of:
+\begin{enumerate}
+    \item two circles
+    \item two lines
+    \item one line and one circle
+\end{enumerate}
+
+If $r_i=(x_i,y_i)$ is constructible in one step from $P_{i-1}$, then $P_i=P_{i-1}\cup\{r_i\}$.
+
+\begin{definition}
+    A point $z\in \mathbb{C}$ is constructible if in a finite sequence using R, C, (1), (2), and (3) that begins with $(0,0)$ and $(1,0)$ and arrives at $z$.
+
+    We additionally define $\mathfrak{C}=\{z\in\mathbb{C}:z\text{ is constructible}\}$.
+\end{definition}
+
+Examples:
+\begin{enumerate}
+    \item Every $m\in\mathbb{Z}$ is constructible.
+    \item Every $m+ni\in\mathbb{Z}[i]$ is constructible.
+    \item Every $q\in\mathbb{Q}$ is constructible. (through similar triangles)
+\end{enumerate}
+
+\begin{definition}
+    Let $P_0$ be a set of points in $\mathbb{R}^2$. Then, the point field of $P_0$, denoted by $K_0$, is the smallest subfield of $\mathbb{R}$, containing every coordinate of every point in $P_0$. If some point $r_i=(x_i,y_i)$ is constructible by one step from $P_{i-1}$, the point field of $K_i$ of $P_i=P_{i-1}\cup\{r_i\}$ is the smallest subfield of $\mathbb{R}$ with elements from $K_{i-1}$, $x_i$, and $y_i$.
+\end{definition}
+
+\begin{lemma}
+    Let $r_i=(x_i,y_i)$ be a point constructible from $P_0$, and let $K_i$ be the point field of $P_i$. Then, both $x_i$ and $y_i$ are roots of quadratic polynomials over the field $K_{i-1}$.
+\end{lemma}
+
+\begin{proof}
+    Note that $r_i$ must be the intersections of either two circles, two lines, one line and one circle which are constructible using C and R on $K_{i-1}$. The solutions to these intersections are at most quadratic.
+
+    Additionally note that this proof is not limited to fields of form $P_i$.
+\end{proof}
+
+\begin{theorem}
+    A real number $r$ is constructible only if there is a series of fields $\mathbb{Q}=F_1\subset F_2\subset\cdots\subset F_n\subset\mathbb{R}$ such that $F_{i+1}=F_i(\sqrt{a_i})$ where $a_i\in F_i$ and $r\in F_n$. Furthermore, $[\mathbb Q(r):\mathbb{Q}]=2^k$ for some nonnegative integer $k$.
+\end{theorem}
+
+Note that the definitions for this series of fields is different from the series of point set fields. However, the point field over $\mathbb{Q}\cap\{\sqrt{a_i}:1\leq i\leq n\}$ is the same as $\mathbb{Q}(r)$. Either way, any element in $P_i$ or $F_i$ is constructible.
+
+\begin{proof}
+    We already know the rationals can be constructed. We may add on elements to the rationals in constructing a bigger subset of constructible numbers.
+
+    From the previous lemma, we know that when we find a new constructible number from a field (in this case $F_i$), it is solved in terms of a quadratic or linear polynomial. In both cases can roots be written as $p+q\sqrt{a_i}$ where $p,q\in F_i$.
+
+    As for the second part, $[\mathbb{Q}(\sqrt a_{n-1}):\mathbb Q]=[\mathbb{Q}(\sqrt a_{n-1}):\mathbb{Q}(\sqrt a_{n-2})][\mathbb{Q}(\sqrt a_{n-2}):\mathbb{Q}(\sqrt a_{n-3})]\cdots[\mathbb{Q}(\sqrt{a_1}):\mathbb{Q}]=2^k$ for some nonnegative $k$ (each term in the product is either 1 or 2).
+\end{proof}
+
+\begin{lemma}
+    Let $P_0\subset\mathbb{R}^2$ and $K_0$ its point field. Then, $\forall r=(x,y)$ that is constructible, $[K_0(x):K_0]\text{ and }[K_0(y):K_0]\text{ are powers of 2}$.
+\end{lemma}
+
+\begin{definition}
+    An angle $\theta$ is constructible iff $\cos\theta$ is a constructible number. This definition is used as we may construct the point $(\cos\theta,1)$ and drop perpendiculars to the axes to find a triangle with an angle of $\theta$ at the origin.
+\end{definition}
+
+Exercises:
+\begin{enumerate}
+    \item Show that $\sin\theta$ constructable means $\theta$ is constructable.
+    \item Show that you cannot trisect a $60\textdegree$ angle.
+    \item Show that you cannot double the volume of a cube.
+\end{enumerate}
+
+\begin{theorem}
+    The regular $n$-gon is constructible iff point $e^{\frac {2\pi i} n}$ is constructable.
+\end{theorem}
+
+\begin{theorem}
+    $\mathfrak C=\{z\in\mathbb{C}:z\text{ is constructible}\}$ is a field.
+\end{theorem}
+
+\begin{proof}
+Let $L(z_1,z_2)$ be the line through $z_1$ and $z_2$ and $C(z,r)$ be the circle with center $z$ and radius $r$.
+    \begin{enumerate}
+        \item Identities: By definition, $0,1\in\mathfrak{C}$
+        \item Closure of Addition: if $z_1$ and $z_2$ are collinear, it is easy. Else, $z_1+z_2\in C(z_1,|z_2|)\cap C(z_2,|z_1|)$.
+        \item Additive Inverses: Given $0\neq z\in\mathfrak C$, $L(0,z)$ and $C(0,|z|)$ intersect at $\pm z$, thus establishing $-z\in\mathfrak C$.
+        \item Multiplicative Inverses and Closure: We may construct similar triangles to show that $\forall z_1,z_2\in\mathfrak{C},z_1z_2\in\mathfrak C\land z_1z_2^{-1}\in\mathfrak{C}$.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    $\forall z\in\mathfrak{C},\sqrt z\in\mathfrak C$
+\end{theorem}
+
+\begin{lemma}
+    If $c$ is a constructible number, the minimum polynomial for $c$ must have a degree of a power of a 2.
+\end{lemma}
+
+\begin{lemma}
+Let $p$ be prime.
+    \begin{enumerate}
+        \item If $\gamma_1$ is a primitive $p$th root of unity, the minimum polynomial for $\gamma_1$ over $\mathbb{Q}$ is $1+x+x^2+\cdots+x^{p-1}$
+        \item If $\gamma_2$ is a primitive $p^2$th root of unity, the minimum polynomial for $\gamma_2$ over $\mathbb{Q}$ is $1+x^p+x^{2p}+\cdots+x^{p(p-1)}$
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+    If an n-gon is constructible, 2n-gons are also constructible.
+\end{lemma}
+
+\begin{lemma}
+    If an $n$-gon is constructible, $\forall d|n$, $d$-gons are also constructible.
+\end{lemma}
+
+\begin{lemma}
+    If $n$-gons and $m$-gons are constructible, so are $\lcm(n,m)$-gons.
+\end{lemma}
+
+\begin{theorem}
+    Gauss-Wantzel Theorem: a regular $n$-gon can be constructed iff $n=2^kp_1p_2\cdots p_r$ where $p_i$s are distinct Fermat primes.
+\end{theorem}
+
+\begin{proof}
+    We will prove that constructability implies product of powers of 2 and distinct Fermat primes.
+
+    Suppose an $n=2^rp_1^{a_1}\cdots p_s^{a^s}$-gon is constructible where $p_i$s are distinct odd primes. Thus, we get that each $p_i^{a_i}$-gons are constructible. Furthermore, if $a_i\geq2$, $p_i^2$-gons are also constructible. However, $p_i(p_i-1)$ is odd, and thus is not a power of 2. Thus we have that $n=2^rp_1\cdots p_s$.
+
+    Now, since a $p_i$-gon is constructible, $p_i-1=2^{s_i}$. If $s_i$ has an odd power, $p_i=(2^b)^a+1=(2^b+1)((2^b)^{a-1}+\cdots+2^b+1)$, giving that $p_i$ is actually not prime. Thus, $s_i=2^{r_i}$ and $p_i=2^{2^{r_i}}+1$.
+
+    The other direction comes from the fact that a $n$-gon is constructable iff $\phi(n)=2^k$ for some nonnegative integer $k$. Furthermore, this involves Galois Theory and a Sylow Theorem.
+\end{proof}
+
+Note that given a subfield $L$ of constructible numbers, any roots of quadratic polynomials with coefficients in $L$ may be obtained: suppose $f(x)=x^2-sx+p$. The roots of these equation are the roots of the circle $x(x-s)+(y-1)(y-p)=0$: this is called a Carlyle circle of that equation. The line from the $x$-axis is easily obtained, and so is the center of the circle, along with the radius (the points $(0,1)$ and $(s,p)$ form a diameter). 
+
+
+Fun fact: It took Johann Gustav Hermes 10 years to come up with a construction for a hexamyriapentachiliapentahectatriacontaheptagon.
+
+
+\end{document}
